@@ -30,7 +30,7 @@ public class TestElementWithPosition {
 	@Test
 	public void testIsStopElement() {
 		ElementWithPosition<String> elem1 = new ElementWithPosition<>("Hallo", 0, 0);
-		ElementWithPosition<String> elem2 = new ElementWithPosition<>("Hallo", 0);
+		ElementWithPosition<String> elem2 = new ElementWithPosition<>();
 
 		assertThat("Should not be a stop element", elem1.isStopElement(), is(false));
 		assertThat("Should be a stop element", elem2.isStopElement(), is(true));

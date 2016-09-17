@@ -32,8 +32,8 @@ public class ElementWithPosition<T> extends Element<T> {
 	/**
 	 * creates a stop element
 	 */
-	public ElementWithPosition(T value, int previousIndex) {
-		this(value, previousIndex, -1);
+	public ElementWithPosition() {
+		this(null, -1, -1);
 	}
 
 	public ElementWithPosition(T value, int previousIndex, int nextIndex) {
