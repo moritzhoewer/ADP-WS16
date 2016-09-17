@@ -10,9 +10,6 @@
 package adp.aufgabe1.test;
 
 import static org.junit.Assert.*;
-
-import java.util.OptionalInt;
-
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
@@ -21,7 +18,7 @@ import adp.aufgabe1.ArrayList;
 import adp.aufgabe1.List;
 
 /**
- *
+ * Test for the {@link ArrayList} class.
  *
  * @author Moritz Höwer
  * @date 15.09.2016
