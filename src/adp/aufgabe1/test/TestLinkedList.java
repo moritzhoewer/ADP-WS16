@@ -3,114 +3,106 @@
  * Gruppe:  Jesko Treffler (Jesko.Treffler@haw-hamburg.de),
  * 			Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
- * Datum: 17.09.2016 
- * Aufgabe: Aufgabenblatt X
+ * Datum: 18.09.2016 
+ * Aufgabe: Aufgabenblatt 1
  */
 
 package adp.aufgabe1.test;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
 
+import adp.aufgabe1.LinkedList;
 import adp.aufgabe1.List;
-import adp.aufgabe1.WeirdArrayList;
 
 /**
  *
  *
  * @author Moritz Höwer
- * @date 17.09.2016
+ * @date 18.09.2016
  * @version 1.0
  */
-public class TestWeirdArrayList {
+/**
+ *
+ *
+ * @author Moritz Höwer
+ * @date 18.09.2016
+ * @version 1.0
+ */
+public class TestLinkedList {
 
 	/**
 	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#insert(int, java.lang.Object)} and
-	 * {@link adp.aufgabe1.WeirdArrayList#retrieve(int)}.
+	 * {@link adp.aufgabe1.LinkedList#insert(int, java.lang.Object)} and
+	 * {@link adp.aufgabe1.LinkedList#retrieve(int)}.
 	 */
 	@Test
 	public void testInsertAndRetrieve() {
-		// create list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		LinkedList<Integer> list = new LinkedList<>();
 
-		assertThat("List is not empty", list.size(), is(0));
+		// some values
+		final int VALUE_1 = 10;
+		final int VALUE_2 = 20;
+		final int VALUE_3 = 30;
+		final int VALUE_4 = 40;
 
-		// some valuesto insert
-		final int VALUE_1 = 100;
-		final int VALUE_2 = 200;
-		final int VALUE_3 = 300;
-		final int VALUE_4 = 400;
-		final int VALUE_5 = 500;
+		// negative index
+		try {
+			list.insert(-1, -1);
+			fail("IndexOutOfBoundsException should have been thrown for index -1");
+		} catch (IndexOutOfBoundsException e) {
+		}
 
-		// insert first
+		// insert first error
+		try {
+			list.insert(1, 1);
+			fail("IndexOutOfBoundsException should have been thrown for index -1");
+		} catch (IndexOutOfBoundsException e) {
+		}
+
+		// insert first and check chaining
 		assertThat("Chaining is broken", list.insert(0, VALUE_1), is(list));
-		// Array: [VALUE_1]
-		// List: [VALUE_1]
-		assertThat("List has wrong size", list.size(), is(1));
+		// [VALUE_1]
 		assertThat("List has wrong element at index 0", list.retrieve(0), is(VALUE_1));
+
+		// insert second error
+		try {
+			list.insert(2, 2);
+			fail("IndexOutOfBoundsException should have been thrown for index -1");
+		} catch (IndexOutOfBoundsException e) {
+		}
 
 		// insert behind
 		list.insert(1, VALUE_2);
-		// Array: [VALUE_1, VALUE_2]
-		// List: [VALUE_1, VALUE_2]
-		assertThat("List has wrong size", list.size(), is(2));
+		// [VALUE_1, VALUE_2]
 		assertThat("List has wrong element at index 0", list.retrieve(0), is(VALUE_1));
 		assertThat("List has wrong element at index 1", list.retrieve(1), is(VALUE_2));
 
-		// insert at front
+		// insert before
 		list.insert(0, VALUE_3);
-		// Array: [VALUE_1, VALUE_2, VALUE_3]
-		// List: [VALUE_3, VALUE_1, VALUE_2]
-		assertThat("List has wrong size", list.size(), is(3));
+		// [VALUE_3, VALUE_1, VALUE_2]
 		assertThat("List has wrong element at index 0", list.retrieve(0), is(VALUE_3));
 		assertThat("List has wrong element at index 1", list.retrieve(1), is(VALUE_1));
 		assertThat("List has wrong element at index 2", list.retrieve(2), is(VALUE_2));
 
-		// insert between 2nd and 3rd (index 2)
-		list.insert(2, VALUE_4);
-		// Array: [VALUE_1, VALUE_2, VALUE_3, VALUE_4]
-		// List: [VALUE_3, VALUE_1, VALUE_4, VALUE_2]
-		assertThat("List has wrong size", list.size(), is(4));
+		// insert some more at the end
+		list.insert(3, VALUE_4);
+		// [VALUE_3, VALUE_1, VALUE_2, VALUE_4]
 		assertThat("List has wrong element at index 0", list.retrieve(0), is(VALUE_3));
 		assertThat("List has wrong element at index 1", list.retrieve(1), is(VALUE_1));
-		assertThat("List has wrong element at index 2", list.retrieve(2), is(VALUE_4));
-		assertThat("List has wrong element at index 3", list.retrieve(3), is(VALUE_2));
-
-		// insert 6 more at the front
-		for (int i = 0; i < 6; i++) {
-			list.insert(0, i);
-		}
-		// Array: [VALUE_1, VALUE_2, VALUE_3, VALUE_4, 0, 1, 2, 3, 4, 5]
-		// List: [5, 4, 3, 2, 1, 0, VALUE_3, VALUE_1, VALUE_4, VALUE_2]
-		assertThat("List has wrong size", list.size(), is(10));
-
-		// insert 11th in the middle (index 5)
-		list.insert(5, VALUE_5);
-		// Array: [VALUE_1, VALUE_2, VALUE_3, VALUE_4, 0, 1, 2, 3, 4, 5,
-		// VALUE_5]
-		// List: [5, 4, 3, 2, 1, VALUE_5, 0, VALUE_3, VALUE_1, VALUE_4, VALUE_2]
-		assertThat("List has wrong size", list.size(), is(11));
-		for (int i = 0; i < 5; i++) {
-			assertThat("List has wrong element at index " + i, list.retrieve(i), is(5 - i));
-		}
-		assertThat("List has wrong element at index 5", list.retrieve(5), is(VALUE_5));
-		assertThat("List has wrong element at index 6", list.retrieve(6), is(0));
-		assertThat("List has wrong element at index 7", list.retrieve(7), is(VALUE_3));
-		assertThat("List has wrong element at index 8", list.retrieve(8), is(VALUE_1));
-		assertThat("List has wrong element at index 9", list.retrieve(9), is(VALUE_4));
-		assertThat("List has wrong element at index 10", list.retrieve(10), is(VALUE_2));
+		assertThat("List has wrong element at index 2", list.retrieve(2), is(VALUE_2));
+		assertThat("List has wrong element at index 3", list.retrieve(3), is(VALUE_4));
 	}
 
 	/**
-	 * Test method for {@link adp.aufgabe1.WeirdArrayList#delete(int)}.
+	 * Test method for {@link adp.aufgabe1.LinkedList#delete(int)}.
 	 */
 	@Test
 	public void testDelete() {
-		// create a list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		// create list
+		LinkedList<Integer> list = new LinkedList<>();
 
 		// delete on empty list
 		try {
@@ -156,13 +148,12 @@ public class TestWeirdArrayList {
 	}
 
 	/**
-	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#find(java.lang.Object)}.
+	 * Test method for {@link adp.aufgabe1.LinkedList#find(java.lang.Object)}.
 	 */
 	@Test
 	public void testFind() {
 		// create list
-		WeirdArrayList<String> list = new WeirdArrayList<>();
+		LinkedList<String> list = new LinkedList<>();
 
 		// some values to be inserted
 		final String VALUE_1 = "Hallo";
@@ -181,14 +172,14 @@ public class TestWeirdArrayList {
 	}
 
 	/**
-	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#concat(adp.aufgabe1.List)}.
+	 * Test method for {@link adp.aufgabe1.LinkedList#concat(adp.aufgabe1.List)}
+	 * .
 	 */
 	@Test
 	public void testConcat() {
-		// create a list
-		WeirdArrayList<Integer> list1 = new WeirdArrayList<>();
-		WeirdArrayList<Integer> list2 = new WeirdArrayList<>();
+		// create list
+		LinkedList<Integer> list1 = new LinkedList<>();
+		LinkedList<Integer> list2 = new LinkedList<>();
 		List<Integer> list3;
 
 		// fill lists
@@ -212,12 +203,32 @@ public class TestWeirdArrayList {
 	}
 
 	/**
-	 * Test method for {@link adp.aufgabe1.WeirdArrayList#retrieve(int)}.
+	 * Test method for {@link adp.aufgabe1.LinkedList#size()}.
+	 */
+	@Test
+	public void testSize() {
+		// create list
+		LinkedList<Integer> list = new LinkedList<>();
+
+		assertThat("List should be empty", list.size(), is(0));
+
+		list.insert(0, 0);
+		assertThat("List has wrong size", list.size(), is(1));
+
+		list.insert(1, 1);
+		assertThat("List has wrong size", list.size(), is(2));
+
+		list.delete(0);
+		assertThat("List has wrong size", list.size(), is(1));
+	}
+
+	/**
+	 * Test method for {@link adp.aufgabe1.LinkedList#retrieve(int)}.
 	 */
 	@Test
 	public void testRetrieve() {
 		// create list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		LinkedList<Integer> list = new LinkedList<>();
 
 		// a value to be inserted
 		final int VALUE = 100;

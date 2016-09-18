@@ -105,6 +105,13 @@ public class TestArrayList {
 		// create a list
 		ArrayList<Integer> list = new ArrayList<>();
 
+		// delete on empty list
+		try {
+			list.delete(0);
+			fail("IndexOutOfBoundsException should have been thrown for empty list");
+		} catch (IndexOutOfBoundsException e) {
+		}
+
 		// insert some data
 		list.insert(0, 0).insert(1, 1).insert(2, 2);
 		// [0,1,2]
@@ -134,6 +141,11 @@ public class TestArrayList {
 		list.delete(0);
 		// [1]
 		assertThat("List did not store the correct element at index 0", list.retrieve(0), is(1));
+
+		// delete last element so list is empty
+		list.delete(0);
+		// []
+		assertThat("List should be empty", list.size(), is(0));
 	}
 
 	/**
@@ -171,6 +183,13 @@ public class TestArrayList {
 
 		// a value to be inserted
 		final int VALUE = 100;
+
+		// retrieve on empty list
+		try {
+			list.retrieve(0);
+			fail("IndexOutOfBoundsException should have been thrown for empty list");
+		} catch (IndexOutOfBoundsException e) {
+		}
 
 		// insert value
 		list.insert(0, VALUE);
@@ -213,15 +232,14 @@ public class TestArrayList {
 
 		list3 = list1.concat(list2);
 		assertThat("New lists size is wrong", list3.size(), is(20));
-		
+
 		for (int i = 0; i < 10; i++) {
 			assertThat("Element at index " + i + " is wrong", list3.retrieve(i), is(i));
 		}
 		for (int i = 10; i < 20; i++) {
 			assertThat("Element at index " + i + " is wrong", list3.retrieve(i), is((i - 10) * 10));
 		}
-		
-		
+
 	}
 
 }

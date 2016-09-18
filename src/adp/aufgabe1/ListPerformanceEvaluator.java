@@ -48,12 +48,12 @@ public class ListPerformanceEvaluator {
 			System.out.println();
 		}
 
-		/*
-		 * System.out.println("Evaluating HeapList"); for (int i = MIN_SIZE; i
-		 * <= MAX_SIZE; i *= 10) { System.out.println("Size: " + i); doTests(new
-		 * ArrayList<>(counter), new ArrayList<>(counter), i);
-		 * System.out.println(); }
-		 */
+		System.out.println("Evaluating LinkedList");
+		for (int i = MIN_SIZE; i <= MAX_SIZE; i *= 10) {
+			System.out.println("Size: " + i);
+			doTests(new LinkedList<>(counter), new LinkedList<>(counter), i);
+			System.out.println();
+		}
 
 		System.out.println("Done");
 
