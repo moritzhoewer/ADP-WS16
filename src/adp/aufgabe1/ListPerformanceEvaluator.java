@@ -75,18 +75,18 @@ public class ListPerformanceEvaluator {
 		long result = evaluateMassAction(i -> list1.insert(0, i), times);
 		System.out.println(result + " operations");
 		System.out.print("Inserting elements (desc): ");
-		result = evaluateMassAction(i -> list2.insert(i, i), times);
+		//result = evaluateMassAction(i -> list2.insert(i, i), times);
 		System.out.println(result + " operations");
-
+		
 		// retrieve
-		System.out.print("Retrieving elements (asc): ");
-		result = evaluateMassAction(i -> list1.retrieve(i), times);
+		System.out.print("Retrieving first element: ");
+		result = evaluateMassAction(i -> list1.retrieve(0), 1);
 		System.out.println(result + " operations");
-		System.out.print("Retrieving elements (desc): ");
-		result = evaluateMassAction(i -> list2.retrieve(times - i - 1), times);
+		System.out.print("Retrieving last element: ");
+		result = evaluateMassAction(i -> list1.retrieve(times - 1), 1);
 		System.out.println(result + " operations");
 
-		// size
+		/*// size
 		System.out.print("Counting elements: ");
 		result = evaluateMassAction(i -> list1.size(), 1);
 		System.out.println(result + " operations");
@@ -116,7 +116,7 @@ public class ListPerformanceEvaluator {
 
 		System.out.print("Deleting elements (desc): ");
 		result = evaluateMassAction(i -> list2.retrieve(times - i - 1), times);
-		System.out.println(result + " operations");
+		System.out.println(result + " operations");*/
 	}
 
 	/**
