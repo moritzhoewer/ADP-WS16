@@ -40,10 +40,20 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	private int count;
 
+	/**
+	 * the counter to collect data about operations
+	 */
+	private Counter counter;
+
 	public WeirdArrayList() {
+		this(new Counter());
+	}
+
+	public WeirdArrayList(Counter counter) {
 		count = 0;
 		data = new Object[START_CAPACITY];
 		data[0] = new ElementWithPosition<T>();
+		this.counter = counter;
 	}
 
 	/**
@@ -51,6 +61,11 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	private ElementWithPosition<T> get(int index) {
+
+		// PERFORMANCE COUNTER
+		counter.increment();
+		// PERFORMANCE COUNTER
+
 		// unchecked cast is safe, because I know what's in data
 		return (ElementWithPosition<T>) data[index];
 	}
@@ -66,12 +81,20 @@ public class WeirdArrayList<T> implements List<T> {
 		while (!current.isStopElement()) {
 			currentIndex = current.getNextIndex();
 			current = get(currentIndex);
+
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
 		}
 
 		// track back to listIndex
 		for (int i = count - 1; i > listIndex; i--) {
 			currentIndex = current.getPreviousIndex();
 			current = get(currentIndex);
+
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
 		}
 
 		return currentIndex;
@@ -96,6 +119,11 @@ public class WeirdArrayList<T> implements List<T> {
 			System.arraycopy(data, 0, temp, 0, data.length);
 
 			data = temp;
+
+			// PERFORMANCE COUNTER
+			counter.incrementBy(count);
+			// PERFORMANCE COUNTER
+
 		}
 		// insert new value
 		ElementWithPosition<T> newElement;
@@ -111,6 +139,10 @@ public class WeirdArrayList<T> implements List<T> {
 			// last element is now not last anymore and points to new element
 			lastElement.setNextIndex(count);
 
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
+
 			// create new element pointing back at previous last element
 			newElement = new ElementWithPosition<>(value, indexOfLastElement, -1);
 
@@ -122,16 +154,26 @@ public class WeirdArrayList<T> implements List<T> {
 			// get the index of the element before me
 			int indexOfElementBeforeMe = currentElementAtMyPosition.getPreviousIndex();
 
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
+
 			// create new element in between the two existing ones
 			newElement = new ElementWithPosition<>(value, indexOfElementBeforeMe, indexOfCurrentElementAtMyPosition);
 
 			// change pointers
 			currentElementAtMyPosition.setPreviousIndex(count);
+
 			if (indexOfElementBeforeMe != -1) {
 				// I am not at the beginning of the list
 				get(indexOfElementBeforeMe).setNextIndex(count);
 			}
 		}
+
+		// PERFORMANCE COUNTER
+		counter.increment();
+		// PERFORMANCE COUNTER
+
 		data[count] = newElement;
 		count++;
 		return this;
@@ -154,34 +196,41 @@ public class WeirdArrayList<T> implements List<T> {
 
 		// link element before and after
 		ElementWithPosition<T> toBeDeleted = get(arrayIndexToDelete);
-		if(toBeDeleted.getPreviousIndex() != -1){
+		if (toBeDeleted.getPreviousIndex() != -1) {
 			get(toBeDeleted.getPreviousIndex()).setNextIndex(toBeDeleted.getNextIndex());
-		} 
-		if(toBeDeleted.getNextIndex() != -1){
+		}
+		if (toBeDeleted.getNextIndex() != -1) {
 			get(toBeDeleted.getNextIndex()).setPreviousIndex(toBeDeleted.getPreviousIndex());
-		} 
+		}
 
 		// move all elements behind that index forward one
 		for (int i = arrayIndexToDelete; i < count - 1; i++) {
 			data[i] = data[i + 1];
+
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
 		}
-		
-		// fix the count		
+
+		// fix the count
 		count--;
 
 		// go through all elements and correct their pointers
 		// everything that pointed to something bigger than arrayIndexToDelete
 		// has to be changed to point one element further forward
-		for(int i = 0; i < count; i++){
+		for (int i = 0; i < count; i++) {
 			ElementWithPosition<T> current = get(i);
-			if(current.getPreviousIndex() > arrayIndexToDelete){
+			if (current.getPreviousIndex() > arrayIndexToDelete) {
 				current.setPreviousIndex(current.getPreviousIndex() - 1);
 			}
-			if(current.getNextIndex() > arrayIndexToDelete){
+			if (current.getNextIndex() > arrayIndexToDelete) {
 				current.setNextIndex(current.getNextIndex() - 1);
 			}
+
+			// PERFORMANCE COUNTER
+			counter.increment();
+			// PERFORMANCE COUNTER
 		}
-		
 
 		return this;
 	}
@@ -205,6 +254,11 @@ public class WeirdArrayList<T> implements List<T> {
 			return OptionalInt.of(currentIndex);
 		} else {
 			while (!current.isStopElement()) {
+
+				// PERFORMANCE COUNTER
+				counter.increment();
+				// PERFORMANCE COUNTER
+
 				currentIndex = current.getNextIndex();
 				current = get(currentIndex);
 
@@ -237,7 +291,7 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	@Override
 	public List<T> concat(List<T> other) {
-		WeirdArrayList<T> newList = new WeirdArrayList<>();
+		WeirdArrayList<T> newList = new WeirdArrayList<>(counter);
 
 		// append all elements from this list
 		for (int i = 0; i < size(); i++) {
@@ -259,6 +313,10 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	@Override
 	public int size() {
+		// PERFORMANCE COUNTER
+		counter.increment();
+		// PERFORMANCE COUNTER
+
 		return count;
 	}
 
