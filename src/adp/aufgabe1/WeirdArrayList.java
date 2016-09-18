@@ -15,8 +15,7 @@ import java.util.OptionalInt;
  * A weird implementation for an array list
  *
  * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @version 1.0 - 17.09.2016
  */
 public class WeirdArrayList<T> implements List<T> {
 
@@ -57,7 +56,12 @@ public class WeirdArrayList<T> implements List<T> {
 	}
 
 	/**
-	 * helper method for getting ElementWithPosition<T> from Object[]
+	 * helper method for getting {@code ElementWithPosition<T>} from
+	 * {@code Object[]}
+	 * 
+	 * @param index
+	 *            the index to retrieve
+	 * @return the element at that index
 	 */
 	@SuppressWarnings("unchecked")
 	private ElementWithPosition<T> get(int index) {
@@ -72,6 +76,10 @@ public class WeirdArrayList<T> implements List<T> {
 
 	/**
 	 * helper for converting list index to position in array
+	 * 
+	 * @param listIndex
+	 *            the index in list ordering
+	 * @return the index in array ordering
 	 */
 	private int listIndexToArrayPosition(int listIndex) {
 		// find last

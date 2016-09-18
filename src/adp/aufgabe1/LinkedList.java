@@ -15,8 +15,7 @@ import java.util.OptionalInt;
  * An implementation for a list based on linked objects
  *
  * @author Moritz Höwer
- * @date 18.09.2016
- * @version 1.0
+ * @version 1.0 - 18.09.2016
  */
 public class LinkedList<T> implements List<T> {
 

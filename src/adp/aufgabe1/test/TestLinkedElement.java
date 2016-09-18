@@ -19,8 +19,7 @@ import adp.aufgabe1.LinkedElement;
  * Test for the {@link LinkedElement} class.
  *
  * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @version 1.0 - 17.09.2016
  */
 public class TestLinkedElement {
 

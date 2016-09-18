@@ -18,18 +18,10 @@ import adp.aufgabe1.LinkedList;
 import adp.aufgabe1.List;
 
 /**
- *
- *
- * @author Moritz Höwer
- * @date 18.09.2016
- * @version 1.0
- */
-/**
- *
+ * performs tests on LinkedList
  *
  * @author Moritz Höwer
- * @date 18.09.2016
- * @version 1.0
+ * @version 1.0 - 18.09.2016
  */
 public class TestLinkedList {
 

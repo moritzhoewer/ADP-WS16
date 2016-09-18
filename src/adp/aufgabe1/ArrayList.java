@@ -15,8 +15,7 @@ import java.util.OptionalInt;
  * An implementation for {@link adp.aufgabe1.List List} based on arrays
  *
  * @author Moritz Höwer
- * @date 15.09.2016
- * @version 1.0
+ * @version 1.0 - 15.09.2016
  */
 public class ArrayList<T> implements List<T> {
 

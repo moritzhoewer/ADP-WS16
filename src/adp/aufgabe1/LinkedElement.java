@@ -13,8 +13,7 @@ package adp.aufgabe1;
  * Wraps a value with information about preceeding and following element
  *
  * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @version 1.0 - 17.09.2016
  */
 public class LinkedElement<T> extends Element<T> {
 
@@ -25,6 +24,8 @@ public class LinkedElement<T> extends Element<T> {
 
 	/**
 	 * creates a stop element
+	 * 
+	 * @param value the value to be stored
 	 */
 	public LinkedElement(T value) {
 		this(value, null);

@@ -15,8 +15,7 @@ import java.util.OptionalInt;
  * Interface for a generic List
  * 
  * @author Moritz Höwer
- * @date 15.09.2016
- * @version 1.0
+ * @version 1.0 - 15.09.2016
  */
 public interface List<T> {
 	/**

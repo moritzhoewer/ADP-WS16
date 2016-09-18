@@ -14,8 +14,7 @@ package adp.aufgabe1;
  * elements
  *
  * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @version 1.0 - 17.09.2016
  */
 public class ElementWithPosition<T> extends Element<T> {
 

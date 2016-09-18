@@ -20,9 +20,8 @@ import adp.aufgabe1.WeirdArrayList;
 /**
  *
  *
- * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @author Moritz Höwer 
+ * @version 1.0 - 17.09.2016
  */
 public class TestWeirdArrayList {
 

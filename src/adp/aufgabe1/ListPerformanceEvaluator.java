@@ -16,8 +16,7 @@ import java.util.function.Consumer;
  * implementations through various tests
  *
  * @author Moritz Höwer
- * @date 17.09.2016
- * @version 1.0
+ * @version 1.0 - 17.09.2016
  */
 public class ListPerformanceEvaluator {
 
@@ -143,6 +142,7 @@ public class ListPerformanceEvaluator {
 	 * Entry point
 	 * 
 	 * @param args
+	 *            commandline arguments
 	 */
 	public static void main(String[] args) {
 		ListPerformanceEvaluator eval = new ListPerformanceEvaluator();
