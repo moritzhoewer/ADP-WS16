@@ -101,6 +101,9 @@ public class TestWeirdArrayList {
 		assertThat("List has wrong element at index 8", list.retrieve(8), is(VALUE_1));
 		assertThat("List has wrong element at index 9", list.retrieve(9), is(VALUE_4));
 		assertThat("List has wrong element at index 10", list.retrieve(10), is(VALUE_2));
+		
+		list.insert(0, null);
+		assertThat("Element at 0 should be null", list.retrieve(0) == null, is(true));
 	}
 
 	/**

@@ -62,7 +62,7 @@ public class TestLinkedList {
 		// insert second error
 		try {
 			list.insert(2, 2);
-			fail("IndexOutOfBoundsException should have been thrown for index -1");
+			fail("IndexOutOfBoundsException should have been thrown for index 2");
 		} catch (IndexOutOfBoundsException e) {
 		}
 
@@ -86,6 +86,9 @@ public class TestLinkedList {
 		assertThat("List has wrong element at index 1", list.retrieve(1), is(VALUE_1));
 		assertThat("List has wrong element at index 2", list.retrieve(2), is(VALUE_2));
 		assertThat("List has wrong element at index 3", list.retrieve(3), is(VALUE_4));
+		
+		list.insert(0, null);
+		assertThat("Element at 0 should be null", list.retrieve(0) == null, is(true));
 	}
 
 	/**

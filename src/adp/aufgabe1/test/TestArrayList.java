@@ -93,6 +93,9 @@ public class TestArrayList {
 
 		assertThat("List did not store the correct element at index 9", list.retrieve(9), is(VALUE_2));
 		assertThat("List did not store the correct element at index 10", list.retrieve(10), is(VALUE_1));
+		
+		list.insert(0, null);
+		assertThat("Element at 0 should be null", list.retrieve(0) == null, is(true));
 	}
 
 	/**
