@@ -13,16 +13,16 @@ package adp.aufgabe1;
  * Abstract base class for wrapping list elements
  *
  * @author Moritz Höwer
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class Element<T> {
+public class Node<T> {
 
 	/**
 	 * the value wrapped by this element
 	 */
 	private final T value;
 
-	public Element(T value) {
+	public Node(T value) {
 		this.value = value;
 	}
 

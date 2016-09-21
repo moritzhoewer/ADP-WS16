@@ -43,7 +43,7 @@ public class ListPerformanceEvaluator {
 		System.out.println("Evaluating WeirdArrayList");
 		for (int i = MIN_SIZE; i <= MAX_SIZE; i *= 10) {
 			System.out.println("Size: " + i);
-			doTests(new WeirdArrayList<>(counter), new WeirdArrayList<>(counter), i);
+			doTests(new DoubleLinkedArrayList<>(counter), new DoubleLinkedArrayList<>(counter), i);
 			System.out.println();
 		}
 

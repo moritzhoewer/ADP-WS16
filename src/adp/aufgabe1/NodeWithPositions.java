@@ -14,9 +14,9 @@ package adp.aufgabe1;
  * elements
  *
  * @author Moritz Höwer
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class ElementWithPosition<T> extends Element<T> {
+public class NodeWithPositions<T> extends Node<T> {
 
 	/**
 	 * the index of the ElementWithPosition before this
@@ -31,11 +31,11 @@ public class ElementWithPosition<T> extends Element<T> {
 	/**
 	 * creates a stop element
 	 */
-	public ElementWithPosition() {
+	public NodeWithPositions() {
 		this(null, -1, -1);
 	}
 
-	public ElementWithPosition(T value, int previousIndex, int nextIndex) {
+	public NodeWithPositions(T value, int previousIndex, int nextIndex) {
 		super(value);
 		this.previousIndex = previousIndex;
 		this.nextIndex = nextIndex;

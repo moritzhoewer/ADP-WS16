@@ -12,12 +12,12 @@ package adp.aufgabe1;
 import java.util.OptionalInt;
 
 /**
- * A weird implementation for an array list
+ * An implementation for a double linked list based on an array
  *
  * @author Moritz Höwer
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class WeirdArrayList<T> implements List<T> {
+public class DoubleLinkedArrayList<T> implements List<T> {
 
 	/**
 	 * initial size of the array
@@ -44,19 +44,19 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	private Counter counter;
 
-	public WeirdArrayList() {
+	public DoubleLinkedArrayList() {
 		this(new Counter());
 	}
 
-	public WeirdArrayList(Counter counter) {
+	public DoubleLinkedArrayList(Counter counter) {
 		count = 0;
 		data = new Object[START_CAPACITY];
-		data[0] = new ElementWithPosition<T>();
+		data[0] = new NodeWithPositions<T>();
 		this.counter = counter;
 	}
 
 	/**
-	 * helper method for getting {@code ElementWithPosition<T>} from
+	 * helper method for getting {@link NodeWithPositions} from
 	 * {@code Object[]}
 	 * 
 	 * @param index
@@ -64,14 +64,14 @@ public class WeirdArrayList<T> implements List<T> {
 	 * @return the element at that index
 	 */
 	@SuppressWarnings("unchecked")
-	private ElementWithPosition<T> get(int index) {
+	private NodeWithPositions<T> get(int index) {
 
 		// PERFORMANCE COUNTER
 		counter.increment();
 		// PERFORMANCE COUNTER
 
 		// unchecked cast is safe, because I know what's in data
-		return (ElementWithPosition<T>) data[index];
+		return (NodeWithPositions<T>) data[index];
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class WeirdArrayList<T> implements List<T> {
 	private int listIndexToArrayPosition(int listIndex) {
 		// find last
 		int currentIndex = count / 2;
-		ElementWithPosition<T> current = get(currentIndex);
+		NodeWithPositions<T> current = get(currentIndex);
 
 		while (!current.isStopElement()) {
 			currentIndex = current.getNextIndex();
@@ -134,15 +134,15 @@ public class WeirdArrayList<T> implements List<T> {
 
 		}
 		// insert new value
-		ElementWithPosition<T> newElement;
+		NodeWithPositions<T> newElement;
 
 		if (count == 0) {
 			// this is the first element
-			newElement = new ElementWithPosition<>(value, -1, -1);
+			newElement = new NodeWithPositions<>(value, -1, -1);
 		} else if (index == count) {
 			// get last element
 			int indexOfLastElement = listIndexToArrayPosition(count - 1);
-			ElementWithPosition<T> lastElement = get(indexOfLastElement);
+			NodeWithPositions<T> lastElement = get(indexOfLastElement);
 
 			// last element is now not last anymore and points to new element
 			lastElement.setNextIndex(count);
@@ -152,12 +152,12 @@ public class WeirdArrayList<T> implements List<T> {
 			// PERFORMANCE COUNTER
 
 			// create new element pointing back at previous last element
-			newElement = new ElementWithPosition<>(value, indexOfLastElement, -1);
+			newElement = new NodeWithPositions<>(value, indexOfLastElement, -1);
 
 		} else {
 			// get element currently at my position (will be moved behind me)
 			int indexOfCurrentElementAtMyPosition = listIndexToArrayPosition(index);
-			ElementWithPosition<T> currentElementAtMyPosition = get(indexOfCurrentElementAtMyPosition);
+			NodeWithPositions<T> currentElementAtMyPosition = get(indexOfCurrentElementAtMyPosition);
 
 			// get the index of the element before me
 			int indexOfElementBeforeMe = currentElementAtMyPosition.getPreviousIndex();
@@ -167,7 +167,7 @@ public class WeirdArrayList<T> implements List<T> {
 			// PERFORMANCE COUNTER
 
 			// create new element in between the two existing ones
-			newElement = new ElementWithPosition<>(value, indexOfElementBeforeMe, indexOfCurrentElementAtMyPosition);
+			newElement = new NodeWithPositions<>(value, indexOfElementBeforeMe, indexOfCurrentElementAtMyPosition);
 
 			// change pointers
 			currentElementAtMyPosition.setPreviousIndex(count);
@@ -203,7 +203,7 @@ public class WeirdArrayList<T> implements List<T> {
 		int arrayIndexToDelete = listIndexToArrayPosition(index);
 
 		// link element before and after
-		ElementWithPosition<T> toBeDeleted = get(arrayIndexToDelete);
+		NodeWithPositions<T> toBeDeleted = get(arrayIndexToDelete);
 		if (toBeDeleted.getPreviousIndex() != -1) {
 			get(toBeDeleted.getPreviousIndex()).setNextIndex(toBeDeleted.getNextIndex());
 		}
@@ -227,7 +227,7 @@ public class WeirdArrayList<T> implements List<T> {
 		// everything that pointed to something bigger than arrayIndexToDelete
 		// has to be changed to point one element further forward
 		for (int i = 0; i < count; i++) {
-			ElementWithPosition<T> current = get(i);
+			NodeWithPositions<T> current = get(i);
 			if (current.getPreviousIndex() > arrayIndexToDelete) {
 				current.setPreviousIndex(current.getPreviousIndex() - 1);
 			}
@@ -257,7 +257,7 @@ public class WeirdArrayList<T> implements List<T> {
 
 		// get first element
 		int currentIndex = listIndexToArrayPosition(0);
-		ElementWithPosition<T> current = get(currentIndex);
+		NodeWithPositions<T> current = get(currentIndex);
 		if (current.getValue().equals(value)) {
 			return OptionalInt.of(currentIndex);
 		} else {
@@ -299,7 +299,7 @@ public class WeirdArrayList<T> implements List<T> {
 	 */
 	@Override
 	public List<T> concat(List<T> other) {
-		WeirdArrayList<T> newList = new WeirdArrayList<>(counter);
+		DoubleLinkedArrayList<T> newList = new DoubleLinkedArrayList<>(counter);
 
 		// append all elements from this list
 		for (int i = 0; i < size(); i++) {

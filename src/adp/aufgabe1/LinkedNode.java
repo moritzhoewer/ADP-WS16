@@ -13,25 +13,25 @@ package adp.aufgabe1;
  * Wraps a value with information about preceeding and following element
  *
  * @author Moritz Höwer
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class LinkedElement<T> extends Element<T> {
+public class LinkedNode<T> extends Node<T> {
 
 	/**
 	 * pointer to the next element
 	 */
-	private LinkedElement<T> nextElement;
+	private LinkedNode<T> nextElement;
 
 	/**
 	 * creates a stop element
 	 * 
 	 * @param value the value to be stored
 	 */
-	public LinkedElement(T value) {
+	public LinkedNode(T value) {
 		this(value, null);
 	}
 	
-	public LinkedElement(T value, LinkedElement<T> nextElement) {
+	public LinkedNode(T value, LinkedNode<T> nextElement) {
 		super(value);
 		this.nextElement = nextElement;
 	}
@@ -46,11 +46,11 @@ public class LinkedElement<T> extends Element<T> {
 		return nextElement == null;
 	}
 
-	public LinkedElement<T> getNextElement() {
+	public LinkedNode<T> getNextElement() {
 		return nextElement;
 	}
 
-	public void setNextElement(LinkedElement<T> nextElement) {
+	public void setNextElement(LinkedNode<T> nextElement) {
 		this.nextElement = nextElement;
 	}
 }

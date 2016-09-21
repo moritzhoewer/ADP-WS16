@@ -13,23 +13,23 @@ import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
 
-import adp.aufgabe1.LinkedElement;
+import adp.aufgabe1.LinkedNode;
 
 /**
- * Test for the {@link LinkedElement} class.
+ * Test for the {@link LinkedNode} class.
  *
  * @author Moritz Höwer
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class TestLinkedElement {
+public class TestLinkedNode {
 
 	/**
-	 * Test method for {@link adp.aufgabe1.LinkedElement#isStopElement()}.
+	 * Test method for {@link adp.aufgabe1.LinkedNode#isStopElement()}.
 	 */
 	@Test
 	public void testIsStopElement() {
-		LinkedElement<String> elem1 = new LinkedElement<>("Hallo");
-		LinkedElement<String> elem2 = new LinkedElement<>("Hallo", elem1);
+		LinkedNode<String> elem1 = new LinkedNode<>("Hallo");
+		LinkedNode<String> elem2 = new LinkedNode<>("Hallo", elem1);
 
 		assertThat("Should be a stop element", elem1.isStopElement(), is(true));
 		assertThat("Should not be a stop element", elem2.isStopElement(), is(false));

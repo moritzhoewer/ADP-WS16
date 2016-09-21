@@ -22,7 +22,7 @@ public class LinkedList<T> implements List<T> {
 	/**
 	 * reference to the first element
 	 */
-	private LinkedElement<T> first;
+	private LinkedNode<T> first;
 
 	/**
 	 * the counter to collect data about operations
@@ -52,7 +52,7 @@ public class LinkedList<T> implements List<T> {
 		// insert first element
 		if (first == null) {
 			if (index == 0) {
-				first = new LinkedElement<T>(value);
+				first = new LinkedNode<T>(value);
 
 				// PERFORMANCE COUNTER
 				counter.increment();
@@ -64,14 +64,14 @@ public class LinkedList<T> implements List<T> {
 			}
 		} else if (index == 0) {
 			// insert as first element
-			first = new LinkedElement<T>(value, first);
+			first = new LinkedNode<T>(value, first);
 
 			// PERFORMANCE COUNTER
 			counter.increment();
 			// PERFORMANCE COUNTER
 
 		} else {
-			LinkedElement<T> current = first;
+			LinkedNode<T> current = first;
 
 			// traverse list until we get to the element before the desired
 			// index
@@ -90,7 +90,7 @@ public class LinkedList<T> implements List<T> {
 			}
 
 			// insert
-			current.setNextElement(new LinkedElement<T>(value, current.getNextElement()));
+			current.setNextElement(new LinkedNode<T>(value, current.getNextElement()));
 
 			// PERFORMANCE COUNTER
 			counter.increment();
@@ -124,7 +124,7 @@ public class LinkedList<T> implements List<T> {
 				throw new IndexOutOfBoundsException("Index is invalid!");
 			}
 
-			LinkedElement<T> current = first;
+			LinkedNode<T> current = first;
 			// traverse to the index before
 			while (index > 1) {
 				if (current.getNextElement().isStopElement()) {
@@ -166,7 +166,7 @@ public class LinkedList<T> implements List<T> {
 
 			return OptionalInt.of(0);
 		} else {
-			LinkedElement<T> current = first;
+			LinkedNode<T> current = first;
 			// traverse to the end
 			int index = 0;
 			while (!current.isStopElement()) {
@@ -196,7 +196,7 @@ public class LinkedList<T> implements List<T> {
 			// invalid index
 			throw new IndexOutOfBoundsException("Index is invalid!");
 		}
-		LinkedElement<T> current = first;
+		LinkedNode<T> current = first;
 		// traverse list to position index
 		while (index > 0) {
 			if (current.isStopElement()) {
@@ -260,7 +260,7 @@ public class LinkedList<T> implements List<T> {
 		}
 
 		int size = 1;
-		LinkedElement<T> current = first;
+		LinkedNode<T> current = first;
 		// traverse to the end
 		while (!current.isStopElement()) {
 			current = current.getNextElement();

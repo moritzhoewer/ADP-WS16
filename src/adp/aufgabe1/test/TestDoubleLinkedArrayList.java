@@ -15,25 +15,25 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import adp.aufgabe1.List;
-import adp.aufgabe1.WeirdArrayList;
+import adp.aufgabe1.DoubleLinkedArrayList;
 
 /**
  *
  *
  * @author Moritz Höwer 
- * @version 1.0 - 17.09.2016
+ * @version 1.0 - 21.09.2016
  */
-public class TestWeirdArrayList {
+public class TestDoubleLinkedArrayList {
 
 	/**
 	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#insert(int, java.lang.Object)} and
-	 * {@link adp.aufgabe1.WeirdArrayList#retrieve(int)}.
+	 * {@link adp.aufgabe1.DoubleLinkedArrayList#insert(int, java.lang.Object)} and
+	 * {@link adp.aufgabe1.DoubleLinkedArrayList#retrieve(int)}.
 	 */
 	@Test
 	public void testInsertAndRetrieve() {
 		// create list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		DoubleLinkedArrayList<Integer> list = new DoubleLinkedArrayList<>();
 
 		assertThat("List is not empty", list.size(), is(0));
 
@@ -107,12 +107,12 @@ public class TestWeirdArrayList {
 	}
 
 	/**
-	 * Test method for {@link adp.aufgabe1.WeirdArrayList#delete(int)}.
+	 * Test method for {@link adp.aufgabe1.DoubleLinkedArrayList#delete(int)}.
 	 */
 	@Test
 	public void testDelete() {
 		// create a list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		DoubleLinkedArrayList<Integer> list = new DoubleLinkedArrayList<>();
 
 		// delete on empty list
 		try {
@@ -159,12 +159,12 @@ public class TestWeirdArrayList {
 
 	/**
 	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#find(java.lang.Object)}.
+	 * {@link adp.aufgabe1.DoubleLinkedArrayList#find(java.lang.Object)}.
 	 */
 	@Test
 	public void testFind() {
 		// create list
-		WeirdArrayList<String> list = new WeirdArrayList<>();
+		DoubleLinkedArrayList<String> list = new DoubleLinkedArrayList<>();
 
 		// some values to be inserted
 		final String VALUE_1 = "Hallo";
@@ -184,13 +184,13 @@ public class TestWeirdArrayList {
 
 	/**
 	 * Test method for
-	 * {@link adp.aufgabe1.WeirdArrayList#concat(adp.aufgabe1.List)}.
+	 * {@link adp.aufgabe1.DoubleLinkedArrayList#concat(adp.aufgabe1.List)}.
 	 */
 	@Test
 	public void testConcat() {
 		// create a list
-		WeirdArrayList<Integer> list1 = new WeirdArrayList<>();
-		WeirdArrayList<Integer> list2 = new WeirdArrayList<>();
+		DoubleLinkedArrayList<Integer> list1 = new DoubleLinkedArrayList<>();
+		DoubleLinkedArrayList<Integer> list2 = new DoubleLinkedArrayList<>();
 		List<Integer> list3;
 
 		// fill lists
@@ -214,12 +214,12 @@ public class TestWeirdArrayList {
 	}
 
 	/**
-	 * Test method for {@link adp.aufgabe1.WeirdArrayList#retrieve(int)}.
+	 * Test method for {@link adp.aufgabe1.DoubleLinkedArrayList#retrieve(int)}.
 	 */
 	@Test
 	public void testRetrieve() {
 		// create list
-		WeirdArrayList<Integer> list = new WeirdArrayList<>();
+		DoubleLinkedArrayList<Integer> list = new DoubleLinkedArrayList<>();
 
 		// a value to be inserted
 		final int VALUE = 100;
