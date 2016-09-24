@@ -11,6 +11,8 @@ package adp.aufgabe1;
 
 import java.util.OptionalInt;
 
+import adp.util.Counter;
+
 /**
  * An implementation for a double linked list based on an array
  *

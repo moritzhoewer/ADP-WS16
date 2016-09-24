@@ -46,11 +46,11 @@ public class LinkedNode<T> extends Node<T> {
 		return nextElement == null;
 	}
 
-	public LinkedNode<T> getNextElement() {
+	public LinkedNode<T> getNextNode() {
 		return nextElement;
 	}
 
-	public void setNextElement(LinkedNode<T> nextElement) {
+	public void setNextNode(LinkedNode<T> nextElement) {
 		this.nextElement = nextElement;
 	}
 }

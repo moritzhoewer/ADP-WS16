@@ -11,11 +11,13 @@ package adp.aufgabe1;
 
 import java.util.OptionalInt;
 
+import adp.util.Counter;
+
 /**
  * An implementation for {@link adp.aufgabe1.List List} based on arrays
  *
  * @author Moritz Höwer
- * @version 1.0 - 15.09.2016
+ * @version 1.0 - 24.09.2016
  */
 public class ArrayList<T> implements List<T> {
 
@@ -209,19 +211,12 @@ public class ArrayList<T> implements List<T> {
 	 */
 	@Override
 	public List<T> concat(List<T> other) {
-		ArrayList<T> newList = new ArrayList<>(counter);
-
-		// append all elements from this list
-		for (int i = 0; i < size(); i++) {
-			newList.insert(i, retrieve(i));
-		}
-
 		// append all elements from the other list
 		for (int i = 0; i < other.size(); i++) {
-			newList.insert(size() + i, other.retrieve(i));
+			insert(size(), other.retrieve(i));
 		}
 
-		return newList;
+		return this;
 	}
 
 	/*

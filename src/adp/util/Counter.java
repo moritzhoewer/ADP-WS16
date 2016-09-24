@@ -7,7 +7,7 @@
  * Aufgabe: Aufgabenblatt 1
  */
 
-package adp.aufgabe1;
+package adp.util;
 
 /**
  * Utility class for counting operations

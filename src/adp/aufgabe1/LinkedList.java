@@ -11,11 +11,13 @@ package adp.aufgabe1;
 
 import java.util.OptionalInt;
 
+import adp.util.Counter;
+
 /**
  * An implementation for a list based on linked objects
  *
  * @author Moritz Höwer
- * @version 1.0 - 18.09.2016
+ * @version 1.0 - 24.09.2016
  */
 public class LinkedList<T> implements List<T> {
 
@@ -28,6 +30,11 @@ public class LinkedList<T> implements List<T> {
 	 * the counter to collect data about operations
 	 */
 	private Counter counter;
+
+	/**
+	 * caches the size of the list
+	 */
+	private int count;
 
 	public LinkedList() {
 		this(new Counter());
@@ -54,6 +61,9 @@ public class LinkedList<T> implements List<T> {
 			if (index == 0) {
 				first = new LinkedNode<T>(value);
 
+				// update size
+				count++;
+
 				// PERFORMANCE COUNTER
 				counter.increment();
 				// PERFORMANCE COUNTER
@@ -65,6 +75,9 @@ public class LinkedList<T> implements List<T> {
 		} else if (index == 0) {
 			// insert as first element
 			first = new LinkedNode<T>(value, first);
+
+			// update size
+			count++;
 
 			// PERFORMANCE COUNTER
 			counter.increment();
@@ -80,7 +93,7 @@ public class LinkedList<T> implements List<T> {
 					// index is invalid
 					throw new IndexOutOfBoundsException("Index is invalid");
 				}
-				current = current.getNextElement();
+				current = current.getNextNode();
 				index--;
 
 				// PERFORMANCE COUNTER
@@ -90,7 +103,11 @@ public class LinkedList<T> implements List<T> {
 			}
 
 			// insert
-			current.setNextElement(new LinkedNode<T>(value, current.getNextElement()));
+			current.setNextNode(
+					new LinkedNode<T>(value, current.getNextNode()));
+
+			// update size
+			count++;
 
 			// PERFORMANCE COUNTER
 			counter.increment();
@@ -113,7 +130,10 @@ public class LinkedList<T> implements List<T> {
 
 		if (index == 0) {
 			// delete first
-			first = first.getNextElement();
+			first = first.getNextNode();
+
+			// update size
+			count--;
 
 			// PERFORMANCE COUNTER
 			counter.increment();
@@ -127,18 +147,21 @@ public class LinkedList<T> implements List<T> {
 			LinkedNode<T> current = first;
 			// traverse to the index before
 			while (index > 1) {
-				if (current.getNextElement().isStopElement()) {
+				if (current.getNextNode().isStopElement()) {
 					// index is invalid
 					throw new IndexOutOfBoundsException("Index is invalid!");
 				}
-				current = current.getNextElement();
+				current = current.getNextNode();
 				index--;
 
 				// PERFORMANCE COUNTER
 				counter.increment();
 				// PERFORMANCE COUNTER
 			}
-			current.setNextElement(current.getNextElement().getNextElement());
+			current.setNextNode(current.getNextNode().getNextNode());
+
+			// update size
+			count--;
 
 			// PERFORMANCE COUNTER
 			counter.increment();
@@ -173,11 +196,11 @@ public class LinkedList<T> implements List<T> {
 				// PERFORMANCE COUNTER
 				counter.increment();
 				// PERFORMANCE COUNTER
-				
-				if(current.getValue().equals(value)){
+
+				if (current.getValue().equals(value)) {
 					return OptionalInt.of(index);
 				}
-				current = current.getNextElement();
+				current = current.getNextNode();
 				index++;
 			}
 		}
@@ -203,7 +226,7 @@ public class LinkedList<T> implements List<T> {
 				// invalid index
 				throw new IndexOutOfBoundsException("Index is invalid!");
 			}
-			current = current.getNextElement();
+			current = current.getNextNode();
 			index--;
 
 			// PERFORMANCE COUNTER
@@ -227,20 +250,12 @@ public class LinkedList<T> implements List<T> {
 	 */
 	@Override
 	public List<T> concat(List<T> other) {
-		// create new list
-		LinkedList<T> newList = new LinkedList<>(counter);
-
-		// append all elements from this list
-		for (int i = 0; i < size(); i++) {
-			newList.insert(i, retrieve(i));
-		}
-
 		// append all elements from the other list
 		for (int i = 0; i < other.size(); i++) {
-			newList.insert(size() + i, other.retrieve(i));
+			insert(size(), other.retrieve(i));
 		}
 
-		return newList;
+		return this;
 	}
 
 	/*
@@ -255,23 +270,7 @@ public class LinkedList<T> implements List<T> {
 		counter.increment();
 		// PERFORMANCE COUNTER
 
-		if (first == null) {
-			return 0;
-		}
-
-		int size = 1;
-		LinkedNode<T> current = first;
-		// traverse to the end
-		while (!current.isStopElement()) {
-			current = current.getNextElement();
-			size++;
-
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
-
-		}
-		return size;
+		return count;
 	}
 
 }

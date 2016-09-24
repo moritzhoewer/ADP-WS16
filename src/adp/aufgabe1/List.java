@@ -15,7 +15,7 @@ import java.util.OptionalInt;
  * Interface for a generic List
  * 
  * @author Moritz Höwer
- * @version 1.0 - 15.09.2016
+ * @version 1.0 - 24.09.2016
  */
 public interface List<T> {
 	/**
@@ -68,8 +68,7 @@ public interface List<T> {
 	 * 
 	 * @param other
 	 *            the {@code List<T>} to be appended
-	 * @return a new {@code List<T>} containing the contents of {@code this} and
-	 *         {@code other}
+	 * @return {@code this} with the contents of {@code other} appended
 	 */
 	public List<T> concat(List<T> other);
 

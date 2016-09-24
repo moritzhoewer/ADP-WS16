@@ -11,6 +11,8 @@ package adp.aufgabe1;
 
 import java.util.function.Consumer;
 
+import adp.util.Counter;
+
 /**
  * Utility class to evaluate the performance of the different list
  * implementations through various tests
