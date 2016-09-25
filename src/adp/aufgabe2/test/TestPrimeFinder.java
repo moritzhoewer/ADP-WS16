@@ -22,8 +22,8 @@ import adp.aufgabe2.PrimeFinder;
 /**
  * test class for PrimeFinder algorithms
  *
- * @author Moritz Höwer
- * @version 1.0 - 25.09.2016
+ * @author Moritz Höwer, Jesko Treffler
+ * @version 1.1 - 25.09.2016 22:06
  */
 public class TestPrimeFinder {
 
@@ -85,6 +85,15 @@ public class TestPrimeFinder {
 	 */
 	@Test
 	public void testImprovedBruteForcePrimesBelow() {
+		PrimeFinder pf = new PrimeFinder();
+		testPrimeFindingAlgorithm(pf::improvedBruteForcePrimesBelow);
+	}
+	/**
+	 * Test method for
+	 * {@link adp.aufgabe2.PrimeFinder#EratosthenesPrimeFinder(int)}.
+	 */
+	@Test
+	public void testEratosthenesPrimeFinder() {
 		PrimeFinder pf = new PrimeFinder();
 		testPrimeFindingAlgorithm(pf::improvedBruteForcePrimesBelow);
 	}

@@ -18,8 +18,8 @@ import adp.util.Counter;
 /**
  * Contains various algorithms for finding primes
  *
- * @author Moritz Höwer
- * @version 1.0 - 25.09.2016
+ * @author Moritz Höwer, Jesko Treffler
+ * @version 1.1 - 25.09.2016 21:40
  */
 public class PrimeFinder {
 
@@ -191,5 +191,40 @@ public class PrimeFinder {
 		return primes;
 
 	}
-
+	
+	/**
+	 * finds all primes below {@code limit} using the Sieve of Eratosthenes
+	 * 
+	 * 
+	 * {@code limit} must be greater than or equal to 2
+	 * 
+	 * @param limit
+	 *            the upper limit
+	 * 
+	 * @return the boolean array containing the primes
+	 */
+	public boolean[] EratosthenesPrimeFinder(int limit) {
+		
+		// check if limit is valid
+		if (limit < 2) {
+			throw new IllegalArgumentException(
+					"Limit is too low! - should be at least 2");
+		}
+		// create array to store primes
+		boolean[] primes = new boolean[limit];
+		
+		// assume all numbers are prime (true)
+		Arrays.fill(primes, true);
+		primes[0] = false;
+		primes[1] = false;
+		for (int PrimeIndex=2;PrimeIndex<sqrt(limit);PrimeIndex++){
+			counter.incrementBy(2); //Vergleichsoperation und Ikrementierung
+			
+			for(int NotPrimes=PrimeIndex*2;NotPrimes<limit;NotPrimes+=PrimeIndex){
+				primes[NotPrimes]=false;
+				counter.incrementBy(2);
+			}
+		}
+		return primes;		
+	}
 }
