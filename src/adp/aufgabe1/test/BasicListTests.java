@@ -24,8 +24,10 @@ import adp.aufgabe1.List;
  */
 public class BasicListTests {
 	/**
-	 * Test method for
-	 * {@link adp.aufgabe1.List#insert(int, java.lang.Object)} and
+	 * Test method for {@link adp.aufgabe1.List#insert(int, java.lang.Object)}.
+	 * 
+	 * @param list
+	 *            the {@link List} to test
 	 */
 	public void testInsert(List<Integer> list) {
 		// some values
@@ -98,6 +100,9 @@ public class BasicListTests {
 
 	/**
 	 * Test method for {@link adp.aufgabe1.List#delete(int)}.
+	 *
+	 * @param list
+	 *            the {@link List} to test
 	 */
 	public void testDelete(List<Integer> list) {
 		// delete on empty list
@@ -150,6 +155,9 @@ public class BasicListTests {
 
 	/**
 	 * Test method for {@link adp.aufgabe1.List#find(java.lang.Object)}.
+	 *
+	 * @param list
+	 *            the {@link List} to test
 	 */
 	public void testFind(List<String> list) {
 		// some values to be inserted
@@ -173,8 +181,12 @@ public class BasicListTests {
 	}
 
 	/**
-	 * Test method for {@link adp.aufgabe1.List#concat(adp.aufgabe1.List)}
-	 * .
+	 * Test method for {@link adp.aufgabe1.List#concat(adp.aufgabe1.List)} .
+	 *
+	 * @param list1
+	 *            the {@link List} to append to
+	 * @param list2
+	 *            the {@link List} to be appended
 	 */
 	public void testConcat(List<Integer> list1, List<Integer> list2) {
 		// fill lists
@@ -203,6 +215,9 @@ public class BasicListTests {
 
 	/**
 	 * Test method for {@link adp.aufgabe1.List#size()}.
+	 *
+	 * @param list
+	 *            the {@link List} to test
 	 */
 	public void testSize(List<Integer> list) {
 		assertThat("List should be empty", list.size(), is(0));
@@ -219,6 +234,9 @@ public class BasicListTests {
 
 	/**
 	 * Test method for {@link adp.aufgabe1.List#retrieve(int)}.
+	 *
+	 * @param list
+	 *            the {@link List} to test
 	 */
 	public void testRetrieve(List<Integer> list) {
 		// a value to be inserted
