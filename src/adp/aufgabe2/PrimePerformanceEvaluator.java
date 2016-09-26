@@ -61,18 +61,13 @@ public class PrimePerformanceEvaluator {
 		forMatlab.put("sizes2", new ArrayList<>());
 		forMatlab.put("IS_P", new ArrayList<>());
 		
-		forMatlab.get("sizes2").add(new Long(11));
-		evaluate("IS_P", pf::isPrime, 11);
-		
-		forMatlab.get("sizes2").add(new Long(101));
-		evaluate("IS_P", pf::isPrime, 101);
-		
-		forMatlab.get("sizes2").add(new Long(997));
-		evaluate("IS_P", pf::isPrime, 997);
-		
-		forMatlab.get("sizes2").add(new Long(100007));
-		evaluate("IS_P", pf::isPrime, 100007);
-		
+		boolean[] primesTo1000 = pf.findUsingEratosthenesBelow(1000);
+		for(int i = 0; i < primesTo1000.length; i++){
+			if(primesTo1000[i]){
+				forMatlab.get("sizes2").add(new Long(i));
+				evaluate("IS_P", pf::isPrime, i);
+			}
+		}		
 		
 		System.out.println("Done");
 		
