@@ -95,6 +95,6 @@ public class TestPrimeFinder {
 	@Test
 	public void testEratosthenesPrimeFinder() {
 		PrimeFinder pf = new PrimeFinder();
-		testPrimeFindingAlgorithm(pf::improvedBruteForcePrimesBelow);
+		testPrimeFindingAlgorithm(pf::EratosthenesPrimeFinder);
 	}
 }
