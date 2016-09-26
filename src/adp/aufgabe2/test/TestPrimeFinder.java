@@ -88,6 +88,7 @@ public class TestPrimeFinder {
 		PrimeFinder pf = new PrimeFinder();
 		testPrimeFindingAlgorithm(pf::improvedBruteForcePrimesBelow);
 	}
+	
 	/**
 	 * Test method for
 	 * {@link adp.aufgabe2.PrimeFinder#findUsingEratosthenesBelow(int)}.
@@ -96,5 +97,30 @@ public class TestPrimeFinder {
 	public void testEratosthenesPrimeFinder() {
 		PrimeFinder pf = new PrimeFinder();
 		testPrimeFindingAlgorithm(pf::findUsingEratosthenesBelow);
+	}
+	
+	/**
+	 * Test method for
+	 * {@link adp.aufgabe2.PrimeFinder#isPrime(int)}.
+	 */
+	@Test
+	public void testIsPrime() {
+		PrimeFinder pf = new PrimeFinder();
+		
+		try {
+			pf.isPrime(-1);
+			fail("Expected an IllegalArgumentExcpetion here");
+		} catch (IllegalArgumentException ex) {
+			// this is the expected outcome
+		}
+
+		assertThat("0 should not be prime!", pf.isPrime(0), is(false));
+		assertThat("1 should not be prime!", pf.isPrime(1), is(false));
+		assertThat("2 should be a prime!", pf.isPrime(2), is(true));
+		assertThat("3 should be a prime!", pf.isPrime(3), is(true));
+		assertThat("4 should not be prime!", pf.isPrime(4), is(false));
+		assertThat("5 should be a prime!", pf.isPrime(5), is(true));
+		assertThat("997 should be a prime!", pf.isPrime(997), is(true));
+		assertThat("1000 should not be prime!", pf.isPrime(1000), is(false));
 	}
 }

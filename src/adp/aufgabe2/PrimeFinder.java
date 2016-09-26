@@ -232,6 +232,7 @@ public class PrimeFinder {
 
 					// PERFORMANCE ANALYSIS
 					counter.increment(); // assignment
+					counter.incrementBy(3); // notPrimes-loop cycle
 					// PERFORMANCE ANALYSIS
 				}
 				// PERFORMANCE ANALYSIS
@@ -249,5 +250,74 @@ public class PrimeFinder {
 		// PERFORMANCE ANALYSIS
 
 		return primes;
+	}
+
+	/**
+	 * tests whether the supplied number is a prime
+	 * 
+	 * {@code number} must be positive or 0
+	 * 
+	 * @param number
+	 *            the number to test
+	 * @return whether {@code number} is a test
+	 */
+	public boolean isPrime(int number) {
+		// number is invalid
+		if (number < 0) {
+			throw new IllegalArgumentException("Number must be positive or 0!");
+		}
+
+		//easy cases first
+		
+		// PERFORMANCE ANALYSIS
+		counter.increment(); // if
+		// PERFORMANCE ANALYSIS
+		if (number < 2) {
+			return false;
+		}
+		
+		// PERFORMANCE ANALYSIS
+		counter.increment(); // if
+		// PERFORMANCE ANALYSIS
+		if (number == 2) {
+			return true;
+		}
+		
+		// now we need to be more generic
+
+		// PERFORMANCE ANALYSIS
+		counter.incrementBy(2); // if with modulo
+		// PERFORMANCE ANALYSIS
+
+		// check if it's divisible by 2
+		if ((number % 2) == 0) {
+			return false;
+
+		}
+
+		// PERFORMANCE ANALYSIS
+		counter.incrementBy(2); // for-overhead
+		// PERFORMANCE ANALYSIS
+
+		// check for divisibility by odd numbers up to the squareroot
+		for (int i = 3; i <= sqrt(number); i += 2) {
+
+			// PERFORMANCE ANALYSIS
+			counter.incrementBy(2); // if with modulo
+			// PERFORMANCE ANALYSIS
+
+			if ((number % i) == 0) {
+				return false;
+			}
+
+			// PERFORMANCE ANALYSIS
+			counter.incrementBy(3); // for cycle
+			// PERFORMANCE ANALYSIS
+
+		}
+
+		// not divisible ==> prime
+		return true;
+
 	}
 }

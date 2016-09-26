@@ -25,7 +25,7 @@ public class PrimePerformanceEvaluator {
 	private Counter counter;
 
 	private static final int MIN_SIZE = 10;
-	private static final int MAX_SIZE = 10000;
+	private static final int MAX_SIZE = 1000;
 	
 	private HashMap<String, ArrayList<Long>> forMatlab;
 
@@ -46,7 +46,7 @@ public class PrimePerformanceEvaluator {
 		forMatlab.put("I_BF", new ArrayList<>());
 		forMatlab.put("ERAS", new ArrayList<>());
 
-		for (int i = MIN_SIZE; i <= MAX_SIZE; i *= 10) {
+		for (int i = MIN_SIZE; i <= MAX_SIZE; i += 10) {
 			System.out.println("Size: " + i);
 			// add size to HashMap for Matlab
 			forMatlab.get("sizes").add(new Long(i));
@@ -57,6 +57,23 @@ public class PrimePerformanceEvaluator {
 			
 			System.out.println();
 		}
+		
+		forMatlab.put("sizes2", new ArrayList<>());
+		forMatlab.put("IS_P", new ArrayList<>());
+		
+		forMatlab.get("sizes2").add(new Long(11));
+		evaluate("IS_P", pf::isPrime, 11);
+		
+		forMatlab.get("sizes2").add(new Long(101));
+		evaluate("IS_P", pf::isPrime, 101);
+		
+		forMatlab.get("sizes2").add(new Long(997));
+		evaluate("IS_P", pf::isPrime, 997);
+		
+		forMatlab.get("sizes2").add(new Long(100007));
+		evaluate("IS_P", pf::isPrime, 100007);
+		
+		
 		System.out.println("Done");
 		
 		forMatlab.forEach((s, a) -> {
