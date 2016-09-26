@@ -19,7 +19,7 @@ import adp.util.Counter;
  * Evaluates the performance of the various algorithms
  *
  * @author Moritz Höwer
- * @version 1.0 - 25.09.2016
+ * @version 1.0 - 26.09.2016
  */
 public class PrimePerformanceEvaluator {
 	private Counter counter;
@@ -44,6 +44,7 @@ public class PrimePerformanceEvaluator {
 		forMatlab.put("sizes", new ArrayList<>());
 		forMatlab.put("BF", new ArrayList<>());
 		forMatlab.put("I_BF", new ArrayList<>());
+		forMatlab.put("ERAS", new ArrayList<>());
 
 		for (int i = MIN_SIZE; i <= MAX_SIZE; i *= 10) {
 			System.out.println("Size: " + i);
@@ -52,6 +53,7 @@ public class PrimePerformanceEvaluator {
 			
 			evaluate("BF", pf::bruteForcePrimesBelow, i);
 			evaluate("I_BF", pf::improvedBruteForcePrimesBelow, i);
+			evaluate("ERAS", pf::findUsingEratosthenesBelow, i);
 			
 			System.out.println();
 		}

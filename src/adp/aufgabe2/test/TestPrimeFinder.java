@@ -23,7 +23,7 @@ import adp.aufgabe2.PrimeFinder;
  * test class for PrimeFinder algorithms
  *
  * @author Moritz Höwer, Jesko Treffler
- * @version 1.1 - 25.09.2016 22:06
+ * @version 1.1 - 26.09.2016
  */
 public class TestPrimeFinder {
 
@@ -90,11 +90,11 @@ public class TestPrimeFinder {
 	}
 	/**
 	 * Test method for
-	 * {@link adp.aufgabe2.PrimeFinder#EratosthenesPrimeFinder(int)}.
+	 * {@link adp.aufgabe2.PrimeFinder#findUsingEratosthenesBelow(int)}.
 	 */
 	@Test
 	public void testEratosthenesPrimeFinder() {
 		PrimeFinder pf = new PrimeFinder();
-		testPrimeFindingAlgorithm(pf::EratosthenesPrimeFinder);
+		testPrimeFindingAlgorithm(pf::findUsingEratosthenesBelow);
 	}
 }

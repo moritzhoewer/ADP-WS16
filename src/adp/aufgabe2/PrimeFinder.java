@@ -151,7 +151,7 @@ public class PrimeFinder {
 		counter.incrementBy(2); // assignments
 		// PERFORMANCE ANALYSIS
 
-		for (int i = 3; i < limit; i++) {
+		for (int i = 4; i < limit; i++) {
 			if ((i % 2) == 0) {
 				primes[i] = false;
 				// PERFORMANCE ANALYSIS
@@ -162,7 +162,7 @@ public class PrimeFinder {
 			counter.incrementBy(2); // if-modulo
 			// PERFORMANCE ANALYSIS
 
-			for (int j = 3; j <= (int) sqrt(i); j += 2) {
+			for (int j = 3; j <= sqrt(i); j += 2) {
 				if ((i % j) == 0) {
 					if ((i != j)) {
 						primes[i] = false;
@@ -191,7 +191,7 @@ public class PrimeFinder {
 		return primes;
 
 	}
-	
+
 	/**
 	 * finds all primes below {@code limit} using the Sieve of Eratosthenes
 	 * 
@@ -203,8 +203,7 @@ public class PrimeFinder {
 	 * 
 	 * @return the boolean array containing the primes
 	 */
-	public boolean[] EratosthenesPrimeFinder(int limit) {
-		
+	public boolean[] findUsingEratosthenesBelow(int limit) {
 		// check if limit is valid
 		if (limit < 2) {
 			throw new IllegalArgumentException(
@@ -212,19 +211,43 @@ public class PrimeFinder {
 		}
 		// create array to store primes
 		boolean[] primes = new boolean[limit];
-		
+
 		// assume all numbers are prime (true)
 		Arrays.fill(primes, true);
 		primes[0] = false;
 		primes[1] = false;
-		for (int PrimeIndex=2;PrimeIndex<sqrt(limit);PrimeIndex++){
-			counter.incrementBy(2); //Vergleichsoperation und Ikrementierung
-			
-			for(int NotPrimes=PrimeIndex*2;NotPrimes<limit;NotPrimes+=PrimeIndex){
-				primes[NotPrimes]=false;
-				counter.incrementBy(2);
+
+		// PERFORMANCE ANALYSIS
+		counter.incrementBy(limit * 3 + 2); // fill
+		counter.incrementBy(2); // assignments
+		// PERFORMANCE ANALYSIS
+
+		for (int primeIndex = 2; primeIndex < sqrt(limit); primeIndex++) {
+
+			if (primes[primeIndex]) {
+				for (int notPrimes = primeIndex
+						* 2; notPrimes < limit; notPrimes += primeIndex) {
+
+					primes[notPrimes] = false;
+
+					// PERFORMANCE ANALYSIS
+					counter.increment(); // assignment
+					// PERFORMANCE ANALYSIS
+				}
+				// PERFORMANCE ANALYSIS
+				counter.incrementBy(2); // notPrimes-loop overhead
+				// PERFORMANCE ANALYSIS
 			}
+			// PERFORMANCE ANALYSIS
+			counter.increment(); // if
+			counter.incrementBy(3); // primeIndex-loop cycle
+			// PERFORMANCE ANALYSIS
+
 		}
-		return primes;		
+		// PERFORMANCE ANALYSIS
+		counter.incrementBy(2); // primeIndex-loop overhead
+		// PERFORMANCE ANALYSIS
+
+		return primes;
 	}
 }
