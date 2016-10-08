@@ -34,12 +34,12 @@ public class ArrayList<T> implements List<T> {
 	/**
 	 * the array used for storing the data in this list
 	 */
-	private Object[] data;
+	protected Object[] data;
 
 	/**
 	 * the number of elements stored
 	 */
-	private int count;
+	protected int count;
 
 	/**
 	 * the counter to collect data about operations
