@@ -225,8 +225,7 @@ public class PrimeFinder {
 		for (int primeIndex = 2; primeIndex < sqrt(limit); primeIndex++) {
 
 			if (primes[primeIndex]) {
-				for (int notPrimes = primeIndex
-						* 2; notPrimes < limit; notPrimes += primeIndex) {
+				for (int notPrimes = primeIndex* 2; notPrimes < limit; notPrimes += primeIndex) {
 
 					primes[notPrimes] = false;
 

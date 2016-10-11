@@ -163,6 +163,8 @@ public class SortingPerformanceEvaluator {
 		SortableArrayList list = new SortableArrayList();
 
 		evaluateAlgorithm("BS", list, list::doBubbleSort);
+		evaluateAlgorithm("BS", list, list::doBubbleSortfaster);
+		evaluateAlgorithm("BS", list, list::doBubbleSortEvenFaster);
 		evaluateAlgorithm("IS", list, list::doInsertionSort);
 		
 		// output matlab
@@ -207,10 +209,15 @@ public class SortingPerformanceEvaluator {
 	 */
 	public static void main(String[] args) {
 		SortingPerformanceEvaluator eval = new SortingPerformanceEvaluator(
-				"123Kartoffelbrei".hashCode());
+				"123Kartoffelkotze".hashCode());
 		
 		eval.performEvaluation();
-
+	/*	SortableArrayList list = new SortableArrayList();
+		eval.fillListRandomly(list, 10);
+		System.out.println(list);
+		list.doBubbleSortEvenFaster();
+		System.out.println(list);
+*/
 	}
 
 }
