@@ -31,6 +31,13 @@ public class BinarySearchTree {
     }
 
     /**
+     * @return the root
+     */
+    protected Node getRoot() {
+        return root;
+    }
+    
+    /**
      * Inserts a new value into the tree
      * 
      * @param value

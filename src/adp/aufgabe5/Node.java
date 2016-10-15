@@ -16,22 +16,22 @@ package adp.aufgabe5;
  * @version 1.0 - 15.10.2016
  */
 public class Node {
-    
+
     /**
      * the integer stored in this Node
      */
     private int value;
-    
+
     /**
      * the sum of all the elements in this tree
      */
     private int sum;
-    
+
     /**
      * the left subtree
      */
     private Node leftChild;
-    
+
     /**
      * the right subtree
      */
@@ -47,12 +47,13 @@ public class Node {
     /**
      * Adds to the internal sum
      * 
-     * @param value the value to add
+     * @param value
+     *            the value to add
      */
-    public void addToSum(int value){
+    public void addToSum(int value) {
         sum += value;
     }
-    
+
     /**
      * @return the value
      */
@@ -61,7 +62,8 @@ public class Node {
     }
 
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public void setValue(int value) {
         this.value = value;
@@ -75,7 +77,8 @@ public class Node {
     }
 
     /**
-     * @param sum the sum to set
+     * @param sum
+     *            the sum to set
      */
     public void setSum(int sum) {
         this.sum = sum;
@@ -89,7 +92,8 @@ public class Node {
     }
 
     /**
-     * @param leftChild the leftChild to set
+     * @param leftChild
+     *            the leftChild to set
      */
     public void setLeftChild(Node leftChild) {
         this.leftChild = leftChild;
@@ -103,9 +107,32 @@ public class Node {
     }
 
     /**
-     * @param rightChild the rightChild to set
+     * @param rightChild
+     *            the rightChild to set
      */
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
-    }    
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Node) {
+            Node otherNode = (Node) other;
+
+            // compare values
+            boolean equal = (value == otherNode.value
+                    && sum == otherNode.sum);
+            
+            // compare children
+            if(equal && leftChild != null){
+                equal = equal && leftChild.equals(otherNode.getLeftChild());
+            }
+            if(equal && rightChild != null){
+                equal = equal && rightChild.equals(otherNode.getRightChild());
+            }
+            
+            return equal;
+        }
+        return false;
+    }
 }
