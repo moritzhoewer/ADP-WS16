@@ -13,14 +13,15 @@ package adp.aufgabe5;
  * The application
  *
  * @author Moritz Höwer
- * @version 1.0 - 15.10.2016
+ * @version 1.1 - 17.10.2016
  */
 public class BinarySearchTreeApplication {
 
     /**
      * program entry point
      * 
-     * @param args command line args
+     * @param args
+     *            command line args
      */
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
@@ -29,14 +30,15 @@ public class BinarySearchTreeApplication {
         tree.insert(3);
         tree.insert(8);
         tree.insert(4);
-        
-        // Resulting tree is
-        //     5 (20)
-        //    /      \
-        //  3 (7)   8 (8)
-        //       \
-        //      4 (4)
 
+        // Resulting tree is
+        // 5 (20)
+        // / \
+        // 3 (7) 8 (8)
+        // \
+        // 4 (4)
+
+        System.out.println(tree.sumBetween(1, 10));
     }
 
 }

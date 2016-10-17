@@ -21,313 +21,361 @@ import adp.util.Counter;
  */
 public class DoubleLinkedArrayList<T> implements List<T> {
 
-	/**
-	 * initial size of the array
-	 */
-	private static final int START_CAPACITY = 10;
+    /**
+     * initial size of the array
+     */
+    private static final int START_CAPACITY = 10;
 
-	/**
-	 * the factor to multiply current array size with when expanding
-	 */
-	private static final int GROWTH_FACTOR = 10;
+    /**
+     * the factor for expanding / shrinking
+     */
+    private static final double GROWTH_FACTOR = 1.5;
 
-	/**
-	 * array for data storage
-	 */
-	private Object[] data;
+    /**
+     * array for data storage
+     */
+    private Object[] data;
 
-	/**
-	 * stores how many elements are in the list
-	 */
-	private int count;
+    /**
+     * stores how many elements are in the list
+     */
+    private int count;
 
-	/**
-	 * the counter to collect data about operations
-	 */
-	private Counter counter;
+    /**
+     * the index of the first element
+     */
+    private int indexOfFirst;
 
-	public DoubleLinkedArrayList() {
-		this(new Counter());
-	}
+    /**
+     * the index of the last element
+     */
+    private int indexOfLast;
 
-	public DoubleLinkedArrayList(Counter counter) {
-		count = 0;
-		data = new Object[START_CAPACITY];
-		data[0] = new NodeWithPositions<T>();
-		this.counter = counter;
-	}
+    /**
+     * the counter to collect data about operations
+     */
+    private Counter counter;
 
-	/**
-	 * helper method for getting {@link NodeWithPositions} from
-	 * {@code Object[]}
-	 * 
-	 * @param index
-	 *            the index to retrieve
-	 * @return the element at that index
-	 */
-	@SuppressWarnings("unchecked")
-	private NodeWithPositions<T> get(int index) {
+    public DoubleLinkedArrayList() {
+        this(new Counter());
+    }
 
-		// PERFORMANCE COUNTER
-		counter.increment();
-		// PERFORMANCE COUNTER
+    public DoubleLinkedArrayList(Counter counter) {
+        count = 0;
+        indexOfFirst = -1;
+        indexOfLast = -1;
+        data = new Object[START_CAPACITY];
+        data[0] = new NodeWithPositions<T>();
+        this.counter = counter;
+    }
 
-		// unchecked cast is safe, because I know what's in data
-		return (NodeWithPositions<T>) data[index];
-	}
+    /**
+     * helper method for getting {@link NodeWithPositions} from {@code Object[]}
+     * 
+     * @param index
+     *            the index to retrieve
+     * @return the element at that index
+     */
+    @SuppressWarnings("unchecked")
+    private NodeWithPositions<T> get(int index) {
+        // unchecked cast is safe, because I know what's in data
+        return (NodeWithPositions<T>) data[index];
+    }
 
-	/**
-	 * helper for converting list index to position in array
-	 * 
-	 * @param listIndex
-	 *            the index in list ordering
-	 * @return the index in array ordering
-	 */
-	private int listIndexToArrayPosition(int listIndex) {
-		// find last
-		int currentIndex = count / 2;
-		NodeWithPositions<T> current = get(currentIndex);
+    /**
+     * helper for converting list index to position in array
+     * 
+     * @param listIndex
+     *            the index in list ordering
+     * @return the index in array ordering
+     */
+    private int listIndexToArrayPosition(int listIndex) {
 
-		while (!current.isStopElement()) {
-			currentIndex = current.getNextIndex();
-			current = get(currentIndex);
+        if (listIndex > count / 2) {
+            // search from the back
+            // get last
+            NodeWithPositions<T> current = get(indexOfLast);
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
-		}
+            int currentIndex = indexOfLast;
 
-		// track back to listIndex
-		for (int i = count - 1; i > listIndex; i--) {
-			currentIndex = current.getPreviousIndex();
-			current = get(currentIndex);
+            // go backwards to list index
+            for (int i = count - 1; i > listIndex; i--) {
+                currentIndex = current.getPreviousIndex();
+                current = get(currentIndex);
+            }
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
-		}
+            return currentIndex;
+        } else {
+            // search from the front
+            // get first
+            NodeWithPositions<T> current = get(indexOfFirst);
 
-		return currentIndex;
-	}
+            int currentIndex = indexOfFirst;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#insert(int, java.lang.Object)
-	 */
-	@Override
-	public List<T> insert(int index, T value) {
-		if (index < 0 || index > count) {
-			// index is invalid
-			throw new IndexOutOfBoundsException("Index must be between 0 and " + count);
-		}
-		if (count == data.length) {
-			// we need a new array
-			Object[] temp = new Object[data.length * GROWTH_FACTOR];
+            // go through elements to list index
+            for (int i = 0; i < listIndex; i++) {
+                currentIndex = current.getNextIndex();
+                current = get(currentIndex);
+            }
 
-			// copy elements to new array
-			System.arraycopy(data, 0, temp, 0, data.length);
+            return currentIndex;
+        }
 
-			data = temp;
+    }
 
-			// PERFORMANCE COUNTER
-			counter.incrementBy(count);
-			// PERFORMANCE COUNTER
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#insert(int, java.lang.Object)
+     */
+    @Override
+    public List<T> insert(int index, T value) {
+        if (index < 0 || index > count) {
+            // index is invalid
+            throw new IndexOutOfBoundsException(
+                    "Index must be between 0 and " + count);
+        }
+        if (count == data.length) {
+            // we need a new array
+            Object[] temp = new Object[(int) (data.length * GROWTH_FACTOR)];
 
-		}
-		// insert new value
-		NodeWithPositions<T> newElement;
+            // copy elements to new array
+            System.arraycopy(data, 0, temp, 0, data.length);
 
-		if (count == 0) {
-			// this is the first element
-			newElement = new NodeWithPositions<>(value, -1, -1);
-		} else if (index == count) {
-			// get last element
-			int indexOfLastElement = listIndexToArrayPosition(count - 1);
-			NodeWithPositions<T> lastElement = get(indexOfLastElement);
+            data = temp;
 
-			// last element is now not last anymore and points to new element
-			lastElement.setNextIndex(count);
+        }
+        // insert new value
+        NodeWithPositions<T> newElement;
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
+        if (count == 0) {
+            // this is the first element
+            newElement = new NodeWithPositions<>(value, -1, -1);
 
-			// create new element pointing back at previous last element
-			newElement = new NodeWithPositions<>(value, indexOfLastElement, -1);
+            // update internal pointers
+            indexOfFirst = 0;
+            indexOfLast = 0;
+        } else if (index == count) {
+            // get last element
+            NodeWithPositions<T> lastElement = get(indexOfLast);
 
-		} else {
-			// get element currently at my position (will be moved behind me)
-			int indexOfCurrentElementAtMyPosition = listIndexToArrayPosition(index);
-			NodeWithPositions<T> currentElementAtMyPosition = get(indexOfCurrentElementAtMyPosition);
+            // last element is now not last anymore and points to new element
+            lastElement.setNextIndex(count);
 
-			// get the index of the element before me
-			int indexOfElementBeforeMe = currentElementAtMyPosition.getPreviousIndex();
+            // create new element pointing back at previous last element
+            newElement = new NodeWithPositions<>(value, indexOfLast, -1);
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
+            // update internal pointer
+            indexOfLast = count;
 
-			// create new element in between the two existing ones
-			newElement = new NodeWithPositions<>(value, indexOfElementBeforeMe, indexOfCurrentElementAtMyPosition);
+        } else if (index == 0) {
+            // get first element
+            NodeWithPositions<T> firstElement = get(indexOfFirst);
 
-			// change pointers
-			currentElementAtMyPosition.setPreviousIndex(count);
+            // last element is now not last anymore and points to new element
+            firstElement.setPreviousIndex(count);
 
-			if (indexOfElementBeforeMe != -1) {
-				// I am not at the beginning of the list
-				get(indexOfElementBeforeMe).setNextIndex(count);
-			}
-		}
+            // create new element pointing back at previous last element
+            newElement = new NodeWithPositions<>(value, -1, indexOfFirst);
 
-		// PERFORMANCE COUNTER
-		counter.increment();
-		// PERFORMANCE COUNTER
+            // update internal pointer
+            indexOfFirst = count;
+        } else {
+            // get element currently at my position (will be moved behind me)
+            int indexOfCurrentElementAtMyPosition = listIndexToArrayPosition(
+                    index);
+            NodeWithPositions<T> currentElementAtMyPosition = get(
+                    indexOfCurrentElementAtMyPosition);
 
-		data[count] = newElement;
-		count++;
-		return this;
-	}
+            // get the index of the element before me
+            int indexOfElementBeforeMe = currentElementAtMyPosition
+                    .getPreviousIndex();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#delete(int)
-	 */
-	@Override
-	public List<T> delete(int index) {
-		if (index < 0 || index >= count) {
-			// index is invalid
-			throw new IndexOutOfBoundsException("Index must be between 0 and " + count);
-		}
+            // create new element in between the two existing ones
+            newElement = new NodeWithPositions<>(value, indexOfElementBeforeMe,
+                    indexOfCurrentElementAtMyPosition);
 
-		// get array position of element to be deleted
-		int arrayIndexToDelete = listIndexToArrayPosition(index);
+            // change pointers
+            currentElementAtMyPosition.setPreviousIndex(count);
+            get(indexOfElementBeforeMe).setNextIndex(count);
+        }
 
-		// link element before and after
-		NodeWithPositions<T> toBeDeleted = get(arrayIndexToDelete);
-		if (toBeDeleted.getPreviousIndex() != -1) {
-			get(toBeDeleted.getPreviousIndex()).setNextIndex(toBeDeleted.getNextIndex());
-		}
-		if (toBeDeleted.getNextIndex() != -1) {
-			get(toBeDeleted.getNextIndex()).setPreviousIndex(toBeDeleted.getPreviousIndex());
-		}
+        data[count] = newElement;
+        count++;
+        return this;
+    }
 
-		// move all elements behind that index forward one
-		for (int i = arrayIndexToDelete; i < count - 1; i++) {
-			data[i] = data[i + 1];
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#delete(int)
+     */
+    @Override
+    public List<T> delete(int index) {
+        if (index < 0 || index >= count) {
+            // index is invalid
+            throw new IndexOutOfBoundsException(
+                    "Index must be between 0 and " + count);
+        }
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
-		}
+        if (index == count - 1) {
+            // delete last
+            NodeWithPositions<T> toBeDeleted = get(indexOfLast);
 
-		// fix the count
-		count--;
+            indexOfLast = toBeDeleted.getPreviousIndex();
+            if (indexOfLast == -1) {
+                // last element was deleted
+                indexOfFirst = -1;
+            } else {
+                // unlink from element before
+                get(toBeDeleted.getPreviousIndex()).setNextIndex(-1);
+            }
+        } else {
+            int arrayIndexToDelete;
+            if (index == 0) {
+                // delete first
+                arrayIndexToDelete = indexOfFirst;
+                NodeWithPositions<T> toBeDeleted = get(arrayIndexToDelete);
 
-		// go through all elements and correct their pointers
-		// everything that pointed to something bigger than arrayIndexToDelete
-		// has to be changed to point one element further forward
-		for (int i = 0; i < count; i++) {
-			NodeWithPositions<T> current = get(i);
-			if (current.getPreviousIndex() > arrayIndexToDelete) {
-				current.setPreviousIndex(current.getPreviousIndex() - 1);
-			}
-			if (current.getNextIndex() > arrayIndexToDelete) {
-				current.setNextIndex(current.getNextIndex() - 1);
-			}
+                indexOfFirst = toBeDeleted.getNextIndex();
+                if (indexOfFirst == -1) {
+                    // last element was deleted
+                    indexOfLast = -1;
 
-			// PERFORMANCE COUNTER
-			counter.increment();
-			// PERFORMANCE COUNTER
-		}
+                    // quit the method
+                    count--;
+                    return this;
+                } else {
+                    // unlink from element behind
+                    get(toBeDeleted.getNextIndex()).setPreviousIndex(-1);
+                }
+            } else {
+                // get array position of element to be deleted
+                arrayIndexToDelete = listIndexToArrayPosition(index);
 
-		return this;
-	}
+                // link element before and after
+                NodeWithPositions<T> toBeDeleted = get(arrayIndexToDelete);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#find(java.lang.Object)
-	 */
-	@Override
-	public OptionalInt find(T value) {
-		if (count == 0) {
-			// list is empty
-			return OptionalInt.empty();
-		}
+                // fix pointers
+                get(toBeDeleted.getPreviousIndex())
+                        .setNextIndex(toBeDeleted.getNextIndex());
 
-		// get first element
-		int currentIndex = listIndexToArrayPosition(0);
-		NodeWithPositions<T> current = get(currentIndex);
-		if (current.getValue().equals(value)) {
-			return OptionalInt.of(currentIndex);
-		} else {
-			while (!current.isStopElement()) {
+                get(toBeDeleted.getNextIndex())
+                        .setPreviousIndex(toBeDeleted.getPreviousIndex());
 
-				// PERFORMANCE COUNTER
-				counter.increment();
-				// PERFORMANCE COUNTER
+            }
+            // move last element to position that was freed
+            NodeWithPositions<T> last = get(count - 1);
+            data[arrayIndexToDelete] = last;
 
-				currentIndex = current.getNextIndex();
-				current = get(currentIndex);
+            // if the last array element was actually the last element in the
+            // list as well
+            if (indexOfLast == count - 1) {
+                // correct last element pointer
+                indexOfLast = arrayIndexToDelete;
+            }
+            // if the last array element was actually the first element in the
+            // list as well
+            if (indexOfFirst == count - 1) {
+                // correct last element pointer
+                indexOfFirst = arrayIndexToDelete;
+            }
 
-				if (current.getValue().equals(value)) {
-					return OptionalInt.of(currentIndex);
-				}
-			}
-		}
-		return OptionalInt.empty();
-	}
+            // fix pointers
+            if (last.getPreviousIndex() != -1) {
+                get(last.getPreviousIndex()).setNextIndex(arrayIndexToDelete);
+            }
+            if (last.getNextIndex() != -1) {
+                get(last.getNextIndex()).setPreviousIndex(arrayIndexToDelete);
+            }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#retrieve(int)
-	 */
-	@Override
-	public T retrieve(int index) {
-		if (index < 0 || index >= count) {
-			// index is invalid
-			throw new IndexOutOfBoundsException("Index must be between 0 and " + count);
-		}
-		return get(listIndexToArrayPosition(index)).getValue();
-	}
+        }
+        // fix the count
+        count--;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#concat(adp.aufgabe1.List)
-	 */
-	@Override
-	public List<T> concat(List<T> other) {
-		DoubleLinkedArrayList<T> newList = new DoubleLinkedArrayList<>(counter);
+        if (count < data.length / 2) {
+            // free up space again
+            Object[] temp = new Object[(int) (data.length / GROWTH_FACTOR)];
 
-		// append all elements from this list
-		for (int i = 0; i < size(); i++) {
-			newList.insert(i, retrieve(i));
-		}
+            // copy elements to new array
+            System.arraycopy(data, 0, temp, 0, count);
 
-		// append all elements from the other list
-		for (int i = 0; i < other.size(); i++) {
-			newList.insert(size() + i, other.retrieve(i));
-		}
+            // make data point to new array
+            data = temp;
+        }
 
-		return newList;
-	}
+        return this;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe1.List#size()
-	 */
-	@Override
-	public int size() {
-		// PERFORMANCE COUNTER
-		counter.increment();
-		// PERFORMANCE COUNTER
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#find(java.lang.Object)
+     */
+    @Override
+    public OptionalInt find(T value) {
+        if (count == 0) {
+            // list is empty
+            return OptionalInt.empty();
+        }
 
-		return count;
-	}
+        // get first element
+        int currentIndex = indexOfFirst;
+        NodeWithPositions<T> current = get(currentIndex);
+        if (current.getValue().equals(value)) {
+            return OptionalInt.of(currentIndex);
+        } else {
+            while (!current.isStopElement()) {
+
+                currentIndex = current.getNextIndex();
+                current = get(currentIndex);
+
+                if (current.getValue().equals(value)) {
+                    return OptionalInt.of(currentIndex);
+                }
+            }
+        }
+        return OptionalInt.empty();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#retrieve(int)
+     */
+    @Override
+    public T retrieve(int index) {
+        if (index < 0 || index >= count) {
+            // index is invalid
+            throw new IndexOutOfBoundsException(
+                    "Index must be between 0 and " + count);
+        }
+        return get(listIndexToArrayPosition(index)).getValue();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#concat(adp.aufgabe1.List)
+     */
+    @Override
+    public List<T> concat(List<T> other) {
+        // append all elements from the other list
+        for (int i = 0; i < other.size(); i++) {
+            insert(size(), other.retrieve(i));
+        }
+
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe1.List#size()
+     */
+    @Override
+    public int size() {
+        return count;
+    }
 
 }
