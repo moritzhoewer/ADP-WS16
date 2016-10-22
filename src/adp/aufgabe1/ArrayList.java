@@ -17,7 +17,7 @@ import adp.util.Counter;
  * An implementation for {@link adp.aufgabe1.List List} based on arrays
  *
  * @author Moritz Höwer
- * @version 1.0 - 24.09.2016
+ * @version 1.1 - 22.10.2016
  */
 public class ArrayList<T> implements List<T> {
 
@@ -63,12 +63,27 @@ public class ArrayList<T> implements List<T> {
      */
     @Override
     public List<T> insert(int index, T value) {
+
+        // PERFORMANCE COUNTER
+        counter.increment();
+        // PERFORMANCE COUNTER
+
         if (index < 0 || index > count) {
             // index is invalid
             throw new IndexOutOfBoundsException(
                     "Index must be between 0 and " + count);
         }
+
+        // PERFORMANCE COUNTER
+        counter.increment();
+        // PERFORMANCE COUNTER
+
         if (count == data.length) {
+
+            // PERFORMANCE COUNTER
+            counter.increment();
+            // PERFORMANCE COUNTER
+
             // we need a new array
             Object[] temp = new Object[(int) (data.length * GROWTH_FACTOR)];
 
@@ -88,10 +103,14 @@ public class ArrayList<T> implements List<T> {
             count++;
 
             // PERFORMANCE COUNTER
-            counter.incrementBy(count);
+            counter.incrementBy(count * 3 + 2);
             // PERFORMANCE COUNTER
 
         } else {
+            // PERFORMANCE COUNTER
+            counter.increment();
+            // PERFORMANCE COUNTER
+
             if (index == count) {
                 // nice! we can just append without needing to copy anything...
                 data[index] = value;
@@ -107,9 +126,12 @@ public class ArrayList<T> implements List<T> {
                     data[i] = data[i - 1];
 
                     // PERFORMANCE COUNTER
-                    counter.increment();
+                    counter.incrementBy(2);
                     // PERFORMANCE COUNTER
                 }
+                // PERFORMANCE COUNTER
+                counter.incrementBy(2);
+                // PERFORMANCE COUNTER
 
                 // insert new element
                 data[index] = value;
@@ -118,6 +140,9 @@ public class ArrayList<T> implements List<T> {
                 counter.increment();
                 // PERFORMANCE COUNTER
             }
+            // PERFORMANCE COUNTER
+            counter.increment();
+            // PERFORMANCE COUNTER
 
             // increase counter
             count++;
@@ -133,11 +158,19 @@ public class ArrayList<T> implements List<T> {
      */
     @Override
     public List<T> delete(int index) {
+        // PERFORMANCE COUNTER
+        counter.increment();
+        // PERFORMANCE COUNTER
+
         if (index < 0 || index >= count) {
             // index is invalid
             throw new IndexOutOfBoundsException(
                     "Index must be between 0 and " + count);
         }
+        // PERFORMANCE COUNTER
+        counter.increment();
+        // PERFORMANCE COUNTER
+
         count--;
 
         // PERFORMANCE COUNTER
@@ -145,8 +178,17 @@ public class ArrayList<T> implements List<T> {
         // PERFORMANCE COUNTER
 
         if (index == count) {
+
+            // PERFORMANCE COUNTER
+            counter.increment();
+            // PERFORMANCE COUNTER
+
             // deleting last item - nothing more to do
             if (count < data.length / 2) {
+                // PERFORMANCE COUNTER
+                counter.increment();
+                // PERFORMANCE COUNTER
+
                 // free up space again
                 Object[] temp = new Object[(int) (data.length / GROWTH_FACTOR)];
 
@@ -157,11 +199,18 @@ public class ArrayList<T> implements List<T> {
                 data = temp;
 
                 // PERFORMANCE COUNTR
-                counter.incrementBy(count);
+                counter.incrementBy(count * 3 + 1);
                 // PERFORMANCE COUNTER
             }
         } else {
+            // PERFORMANCE COUNTER
+            counter.increment();
+            // PERFORMANCE COUNTER
             if (count < data.length / 2) {
+                // PERFORMANCE COUNTER
+                counter.increment();
+                // PERFORMANCE COUNTER
+
                 // free up space again
                 Object[] temp = new Object[(int) (data.length / GROWTH_FACTOR)];
 
@@ -175,7 +224,7 @@ public class ArrayList<T> implements List<T> {
                 data = temp;
 
                 // PERFORMANCE COUNTR
-                counter.incrementBy(count);
+                counter.incrementBy(count * 3 + 1);
                 // PERFORMANCE COUNTER
             } else {
                 // move all elements behind index forward one
@@ -183,9 +232,12 @@ public class ArrayList<T> implements List<T> {
                     data[i] = data[i + 1];
 
                     // PERFORMANCE COUNTER
-                    counter.increment();
+                    counter.incrementBy(2);
                     // PERFORMANCE COUNTER
                 }
+                // PERFORMANCE COUNTER
+                counter.incrementBy(2);
+                // PERFORMANCE COUNTER
             }
         }
 
@@ -203,15 +255,24 @@ public class ArrayList<T> implements List<T> {
         for (int i = 0; i < count; i++) {
 
             // PERFORMANCE COUNTER
-            counter.increment();
+            counter.incrementBy(2);
             // PERFORMANCE COUNTER
 
+            // unchecked cast is safe because I know array has only "T"
+            // objects
             if (((T) data[i]).equals(value)) {
-                // unchecked cast is safe because I know array has only "T"
-                // objects
+
+                // PERFORMANCE COUNTER
+                counter.increment();
+                // PERFORMANCE COUNTER
+
                 return OptionalInt.of(i);
             }
         }
+        // PERFORMANCE COUNTER
+        counter.incrementBy(3);
+        // PERFORMANCE COUNTER
+
         return OptionalInt.empty();
     }
 
@@ -223,6 +284,10 @@ public class ArrayList<T> implements List<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T retrieve(int index) {
+        // PERFORMANCE COUNTER
+        counter.increment();
+        // PERFORMANCE COUNTER
+
         if (index < 0 || index >= count) {
             // index is invalid
             throw new IndexOutOfBoundsException(

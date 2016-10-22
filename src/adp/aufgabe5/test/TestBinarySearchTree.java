@@ -35,9 +35,9 @@ public class TestBinarySearchTree extends BinarySearchTree {
     private static final int RANDOM_TEST_TREESIZE = 100;
 
     /**
-     * the size of the tree
+     * the maximum value for contents of the tree
      */
-    private static final int RANDOM_MAX_VALUE = 100;
+    private static final int RANDOM_MAX_VALUE = 800;
 
     /**
      * how many tests to perform on each tree
@@ -45,7 +45,7 @@ public class TestBinarySearchTree extends BinarySearchTree {
     private static final int RANDOM_TESTS_PER_TREE = 10;
 
     /**
-     * how many random trees to generate
+     * how many random trees to generate.
      * 
      * multiply with RANDOM_TESTS_PER_TREE for total test count
      */
