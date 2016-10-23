@@ -29,7 +29,7 @@ public class BinarySearchTree {
     public BinarySearchTree() {
         root = null;
     }
-    
+
     /**
      * Inserts a new value into the tree
      * 
@@ -37,8 +37,14 @@ public class BinarySearchTree {
      *            the value to insert
      * @return true if the value was inserted correctly, false if it already
      *         existed
+     * @throws IllegalArgumentException
+     *             if value is negative
      */
     public boolean insert(int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException(
+                    "Only positive numbers can be inserted!");
+        }
         if (root == null) {
             // create root if it didn't exist yet
             root = new Node(value);
@@ -106,7 +112,7 @@ public class BinarySearchTree {
             throw new IllegalArgumentException(
                     "Lower boundary must not be bigger than upper boundary!");
         }
-        
+
         return root.getSum() - getSumOutside(root, upper, true)
                 - getSumOutside(root, lower, false);
     }
@@ -114,9 +120,12 @@ public class BinarySearchTree {
     /**
      * calculates the sum of the part of the tree that is outside the boundary
      * 
-     * @param root the root of the subtree
-     * @param limit the limit against which to check
-     * @param isUpperLimit is limit the upper or the lower limit
+     * @param root
+     *            the root of the subtree
+     * @param limit
+     *            the limit against which to check
+     * @param isUpperLimit
+     *            is limit the upper or the lower limit
      * @return the sum of all nodes in the tree outside of the boundary
      */
     private int getSumOutside(Node root, int limit, boolean isUpperLimit) {

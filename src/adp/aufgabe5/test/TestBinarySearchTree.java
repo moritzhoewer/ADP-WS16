@@ -62,6 +62,13 @@ public class TestBinarySearchTree extends BinarySearchTree {
     public void testInsert() {
         assertThat("Root should be null", root, is(nullValue()));
 
+        try {
+            insert(-1);
+            fail("Negative values should throw an IllegalArgumentExeption");
+        } catch (IllegalArgumentException e) {
+            // this is expected
+        }
+
         assertThat("Should be able to insert 5", insert(5), is(true));
         assertThat("Root is wrong", root, equalTo(new Node(5)));
 
@@ -163,7 +170,7 @@ public class TestBinarySearchTree extends BinarySearchTree {
                 .filter(i -> {
                     return i <= upper && i >= lower;
                 }).sum();
-        
+
         assertThat("Sum doesn't match...", sumTree, equalTo(sumRefference));
 
     }
