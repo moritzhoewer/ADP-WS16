@@ -38,7 +38,7 @@ public class PrimePerformanceEvaluator {
 	 * performs the evaluation
 	 */
 	public void performEvaluation() {
-		PrimeFinder pf = new PrimeFinder(counter);
+		PrimeFinder pf = new PrimeFinder(counter);		
 		
 		//init HashMap
 		forMatlab.put("sizes", new ArrayList<>());
@@ -61,13 +61,16 @@ public class PrimePerformanceEvaluator {
 		forMatlab.put("sizes2", new ArrayList<>());
 		forMatlab.put("IS_P", new ArrayList<>());
 		
-		boolean[] primesTo1000 = pf.findUsingEratosthenesBelow(1000);
-		for(int i = 0; i < primesTo1000.length; i++){
-			if(primesTo1000[i]){
-				forMatlab.get("sizes2").add(new Long(i));
-				evaluate("IS_P", pf::isPrime, i);
+		for(int i = 100; i <= 1000; i += 100){
+			forMatlab.get("sizes2").add(new Long(i));
+			
+			counter.reset();
+			for(int j = 2; j < i; j++){
+				pf.isPrime(j);
 			}
-		}		
+			
+			forMatlab.get("IS_P").add(counter.getCount());
+		}
 		
 		System.out.println("Done");
 		
@@ -81,7 +84,6 @@ public class PrimePerformanceEvaluator {
 			}
 			System.out.println("];");
 		}); 
-
 	}
 
 	/**

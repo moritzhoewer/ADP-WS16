@@ -145,7 +145,7 @@ public class PrimeFinder {
 		Arrays.fill(primes, true);
 		primes[0] = false;
 		primes[1] = false;
-
+		
 		// PERFORMANCE ANALYSIS
 		counter.incrementBy(limit * 3 + 2); // fill
 		counter.incrementBy(2); // assignments
@@ -157,6 +157,8 @@ public class PrimeFinder {
 				// PERFORMANCE ANALYSIS
 				counter.increment(); // assignment
 				// PERFORMANCE ANALYSIS
+				
+				continue;
 			}
 			// PERFORMANCE ANALYSIS
 			counter.incrementBy(2); // if-modulo
@@ -169,6 +171,7 @@ public class PrimeFinder {
 						// PERFORMANCE ANALYSIS
 						counter.increment(); // assignment
 						// PERFORMANCE ANALYSIS
+						break;
 					}
 					// PERFORMANCE ANALYSIS
 					counter.increment(); // if
