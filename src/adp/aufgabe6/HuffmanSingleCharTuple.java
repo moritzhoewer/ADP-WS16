@@ -13,7 +13,7 @@ package adp.aufgabe6;
  * A Huffman tuple consists of a character and the amount of times it's present
  *
  * @author Moritz Höwer
- * @version 1.0 - 22.10.2016
+ * @version 2.0 - 26.10.2016
  */
 public class HuffmanSingleCharTuple extends HuffmanMultiCharTuple {
     
@@ -32,6 +32,30 @@ public class HuffmanSingleCharTuple extends HuffmanMultiCharTuple {
         return getCharacters().iterator().next();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return getCharacter();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof HuffmanSingleCharTuple)){
+            return false;
+        }
+        HuffmanSingleCharTuple other = (HuffmanSingleCharTuple) obj;
+        return getCharacter() == other.getCharacter();
+    }
+    
     /*
      * (non-Javadoc)
      * 
