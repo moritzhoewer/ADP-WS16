@@ -28,54 +28,59 @@ public class AdjazenzmatrixGraph<T> implements Graph<T> {
 	/**
 	 * Matrix of connections
 	 */
-	private boolean[][] matrix;
+	private int[][] matrix;
 
 	public AdjazenzmatrixGraph() {
 		nodes = new HashSet<>();
-		matrix = new boolean[0][0];
+		matrix = new int[0][0];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#insertNode(adp.aufgabe7.Node, java.util.List)
-	 */
-	@Override
-	public void insertNode(Node<T> node, Set<Node<T>> neighbours) {
-		// TODO Auto-generated method stub
+    @Override
+    public void insertNode(Node<T> node) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	}
+    @Override
+    public void removeNode(Node<T> node) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#removeNode(adp.aufgabe7.Node)
-	 */
-	@Override
-	public void removeNode(Node<T> node) {
-		// TODO Auto-generated method stub
+    @Override
+    public void insertConnection(Connection<T> connection) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	}
+    @Override
+    public void insertConnection(Node<T> start, Node<T> end, int weight) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#getNeighbours(adp.aufgabe7.Node)
-	 */
-	@Override
-	public Set<Node<T>> getNeighbours(Node<T> node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void removeConnection(Connection<T> connection) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#getAllNodes()
-	 */
-	@Override
-	public Set<Node<T>> getAllNodes() {
-		return nodes;
-	}
+    @Override
+    public void removeConnection(Node<T> start, Node<T> end) {
+        // TODO Auto-generated method stub
+        
+    }
 
+    @Override
+    public Set<Connection<T>> getConnectionsFrom(Node<T> node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Set<Node<T>> getAllNodes() {
+        return nodes;
+    }
+	
+	
 }

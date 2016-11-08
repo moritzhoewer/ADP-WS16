@@ -17,41 +17,68 @@ package adp.aufgabe7;
  */
 public class Node<T> {
 
-	/**
-	 * the value wrapped in this node
-	 */
-	private final T value;
+    /**
+     * the value wrapped in this node
+     */
+    private final T value;
 
-	/**
-	 * the weight of this node
-	 */
-	private int weight;
+    public Node(T value) {
+        this.value = value;
+    }
 
-	public Node(T value) {
-		this.value = value;
-		weight = 0;
-	}
+    /**
+     * @return the value
+     */
+    public T getValue() {
+        return value;
+    }
 
-	/**
-	 * @return the weight
-	 */
-	public int getWeight() {
-		return weight;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
 
-	/**
-	 * @param weight
-	 *            the weight to set
-	 */
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Node)) {
+            return false;
+        }
+        Node other = (Node) obj;
+        if (value == null) {
+            if (other.value != null) {
+                return false;
+            }
+        } else if (!value.equals(other.value)) {
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * @return the value
-	 */
-	public T getValue() {
-		return value;
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 
 }

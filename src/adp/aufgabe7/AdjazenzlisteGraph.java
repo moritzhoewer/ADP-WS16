@@ -10,6 +10,7 @@
 package adp.aufgabe7;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,58 +21,120 @@ import java.util.Set;
  * @version 1.0 - 07.11.2016
  */
 public class AdjazenzlisteGraph<T> implements Graph<T> {
-	
-	/**
-	 * All the nodes in this Graph
-	 */
-	private Map<Node<T>, Set<Node<T>>> nodes;
-	
 
-	public AdjazenzlisteGraph() {
-		nodes = new HashMap<>();
-	}
+    /**
+     * All the nodes in this Graph
+     */
+    private Map<Node<T>, Set<Connection<T>>> nodes;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#insertNode(adp.aufgabe7.Node, java.util.List)
-	 */
-	@Override
-	public void insertNode(Node<T> node, Set<Node<T>> neighbours) {
-		// TODO Auto-generated method stub
+    public AdjazenzlisteGraph() {
+        nodes = new HashMap<>();
+    }
 
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#insertNode(adp.aufgabe7.Node, java.util.Set)
+     */
+    @Override
+    public void insertNode(Node<T> node) {
+        nodes.put(node, new HashSet<>());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#removeNode(adp.aufgabe7.Node)
-	 */
-	@Override
-	public void removeNode(Node<T> node) {
-		// TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#removeNode(adp.aufgabe7.Node)
+     */
+    @Override
+    public void removeNode(Node<T> node) {
+        nodes.remove(node);
 
-	}
+        // Remove all Connections that point to node
+        nodes.forEach((n, set) -> {
+            set.removeIf(c -> c.getEnd().equals(node));
+        });
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#getNeighbours(adp.aufgabe7.Node)
-	 */
-	@Override
-	public Set<Node<T>> getNeighbours(Node<T> node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#insertConnection(adp.aufgabe7.Connection)
+     */
+    @Override
+    public void insertConnection(Connection<T> connection) {
+        if (!nodes.containsKey(connection.getStart())) {
+            throw new IllegalArgumentException(
+                    "Starting Node is not part of the Graph!");
+        }
+        if (!nodes.containsKey(connection.getEnd())) {
+            throw new IllegalArgumentException(
+                    "End Node is not part of the Graph!");
+        }
+        if (connection.getWeight() < 0) {
+            throw new IllegalArgumentException("Weight must not be negative!");
+        }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see adp.aufgabe7.Graph#getAllNodes()
-	 */
-	@Override
-	public Set<Node<T>> getAllNodes() {
-		return nodes.keySet();
-	}
+        // add connection
+        nodes.get(connection.getStart()).add(connection);
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#insertConnection(adp.aufgabe7.Node,
+     * adp.aufgabe7.Node, int)
+     */
+    @Override
+    public void insertConnection(Node<T> start, Node<T> end, int weight) {
+        insertConnection(new Connection<>(start, end, weight));
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#removeConnection(adp.aufgabe7.Connection)
+     */
+    @Override
+    public void removeConnection(Connection<T> connection) {
+        Set<?> set = nodes.get(connection.getStart());
+        if(set != null){
+            set.remove(connection);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#removeConnection(adp.aufgabe7.Node,
+     * adp.aufgabe7.Node)
+     */
+    @Override
+    public void removeConnection(Node<T> start, Node<T> end) {
+        removeConnection(new Connection<>(start, end, 0));
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#getConnectionsFrom(adp.aufgabe7.Node)
+     */
+    @Override
+    public Set<Connection<T>> getConnectionsFrom(Node<T> node) {
+        return nodes.get(node);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see adp.aufgabe7.Graph#getAllNodes()
+     */
+    @Override
+    public Set<Node<T>> getAllNodes() {
+        return nodes.keySet();
+    }
 
 }

@@ -9,6 +9,8 @@
 
 package adp.aufgabe7;
 
+import java.util.Random;
+
 /**
  * A Factory that knows how to construct a random Graph
  *
@@ -17,6 +19,11 @@ package adp.aufgabe7;
  */
 public class RandomGraphFactory implements AbstractGraphFactory<Integer> {
 
+    /**
+     * the maximum weight of random connections
+     */
+    private static final int MAX_WEIGHT = 20; 
+    
 	/**
 	 * the size of the Graph to be generated
 	 */
@@ -39,8 +46,23 @@ public class RandomGraphFactory implements AbstractGraphFactory<Integer> {
 	 */
 	@Override
 	public Graph<Integer> buildGraph() {
-		// TODO Auto-generated method stub
-		return null;
+		Graph<Integer> result = new AdjazenzlisteGraph<>();
+		Random rand = new Random(seed);
+		
+		for (int i = 0; i < size; i++) {
+            result.insertNode(new Node<>(i));
+        }
+		
+		result.getAllNodes().forEach(n -> {
+		    result.getAllNodes().forEach(n2 -> {
+		        /*if(rand.nextBoolean()){*/
+		            result.insertConnection(n, n2, rand.nextInt(MAX_WEIGHT));
+		        /*}*/
+		    });
+		    
+		});
+		
+		return result;
 	}
 
 }
