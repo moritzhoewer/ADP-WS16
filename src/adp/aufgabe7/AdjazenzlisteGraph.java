@@ -59,50 +59,26 @@ public class AdjazenzlisteGraph<T> implements Graph<T> {
     /*
      * (non-Javadoc)
      * 
-     * @see adp.aufgabe7.Graph#insertConnection(adp.aufgabe7.Connection)
-     */
-    @Override
-    public void insertConnection(Connection<T> connection) {
-        if (!nodes.containsKey(connection.getStart())) {
-            throw new IllegalArgumentException(
-                    "Starting Node is not part of the Graph!");
-        }
-        if (!nodes.containsKey(connection.getEnd())) {
-            throw new IllegalArgumentException(
-                    "End Node is not part of the Graph!");
-        }
-        if (connection.getWeight() < 0) {
-            throw new IllegalArgumentException("Weight must not be negative!");
-        }
-
-        // add connection
-        nodes.get(connection.getStart()).add(connection);
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see adp.aufgabe7.Graph#insertConnection(adp.aufgabe7.Node,
      * adp.aufgabe7.Node, int)
      */
     @Override
     public void insertConnection(Node<T> start, Node<T> end, int weight) {
-        insertConnection(new Connection<>(start, end, weight));
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see adp.aufgabe7.Graph#removeConnection(adp.aufgabe7.Connection)
-     */
-    @Override
-    public void removeConnection(Connection<T> connection) {
-        Set<?> set = nodes.get(connection.getStart());
-        if(set != null){
-            set.remove(connection);
+        if (!nodes.containsKey(start)) {
+            throw new IllegalArgumentException(
+                    "Starting Node is not part of the Graph!");
         }
+        if (!nodes.containsKey(end)) {
+            throw new IllegalArgumentException(
+                    "End Node is not part of the Graph!");
+        }
+        if (weight < 0) {
+            throw new IllegalArgumentException("Weight must not be negative!");
+        }
+
+        // add connection
+        nodes.get(start).add(new Connection<>(start, end, weight));
+
     }
 
     /*
@@ -113,7 +89,11 @@ public class AdjazenzlisteGraph<T> implements Graph<T> {
      */
     @Override
     public void removeConnection(Node<T> start, Node<T> end) {
-        removeConnection(new Connection<>(start, end, 0));
+        Connection<T> connection = new Connection<>(start, end, 0);
+        Set<?> set = nodes.get(start);
+        if (set != null) {
+            set.remove(connection);
+        }
 
     }
 

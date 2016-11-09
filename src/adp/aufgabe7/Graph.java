@@ -41,20 +41,6 @@ public interface Graph<T> {
      * start and end Nodes must be part of the Graph and weight must be positive
      * or zero
      * 
-     * @param connection
-     *            the connection to add
-     * @throws IllegalArgumentException
-     *             if start or end are not part of the Graph, or if weight is
-     *             negative
-     */
-    void insertConnection(Connection<T> connection);
-
-    /**
-     * Inserts a new connection into the Graph.
-     * 
-     * start and end Nodes must be part of the Graph and weight must be positive
-     * or zero
-     * 
      * @param start
      *            the start of the connection
      * @param end
@@ -67,15 +53,6 @@ public interface Graph<T> {
      */
     void insertConnection(Node<T> start, Node<T> end, int weight);
 
-    /**
-     * Removes a connection from the Graph.
-     * 
-     * errors are silently ignored
-     * 
-     * @param connection
-     *            the connection to remove
-     */
-    void removeConnection(Connection<T> connection);
 
     /**
      * Removes a connection from the Graph.

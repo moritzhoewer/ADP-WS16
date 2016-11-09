@@ -31,44 +31,50 @@ public abstract class AbstractPerformanceEvaluator {
     /**
      * Initializes matlab output
      * 
-     * @param keys the primary keys
-     * @param subkeys the subkeys
+     * @param keys
+     *            the primary keys
+     * @param subkeys
+     *            the subkeys
      */
     protected void initMatlab(String[] keys, String[] subkeys) {
-        for(String key : keys){
-            for(String subkey : subkeys){
+        for (String key : keys) {
+            for (String subkey : subkeys) {
                 addKeyToMatlab(key + "_" + subkey);
             }
         }
     }
-    
+
     /**
      * Initializes matlab output
      * 
-     * @param keys the primary keys
+     * @param keys
+     *            the primary keys
      */
     protected void initMatlab(String... keys) {
-        for(String key : keys){
+        for (String key : keys) {
             addKeyToMatlab(key);
         }
     }
-    
-    
+
     /**
      * Adds a key to the matlab output
      * 
-     * @param key the key to add
+     * @param key
+     *            the key to add
      */
-    protected void addKeyToMatlab(String key){
+    protected void addKeyToMatlab(String key) {
         forMatlab.put(key, new ArrayList<>());
     }
-    
+
     /**
      * Adds a value to the matlab output
      * 
-     * @param key the key for which the value is to be added
-     * @param subkey the subkey for which to add
-     * @param value the value to be added
+     * @param key
+     *            the key for which the value is to be added
+     * @param subkey
+     *            the subkey for which to add
+     * @param value
+     *            the value to be added
      */
     protected void addValueToMatlab(String key, String subkey, long value) {
         addValueToMatlab(key + "_" + subkey, value);
@@ -77,8 +83,10 @@ public abstract class AbstractPerformanceEvaluator {
     /**
      * Adds a value to the matlab output
      * 
-     * @param key the key for which the value is to be added
-     * @param value the value to be added
+     * @param key
+     *            the key for which the value is to be added
+     * @param value
+     *            the value to be added
      */
     protected void addValueToMatlab(String key, long value) {
         forMatlab.get(key).add(value);
@@ -99,9 +107,35 @@ public abstract class AbstractPerformanceEvaluator {
             System.out.println("];");
         });
     }
-    
+
     /**
      * Perform evaluation of Tasks
      */
     public abstract void performEvaluation();
+
+    /**
+     * Converts the nanoseconds to the most appropriate unit
+     * 
+     * @param nanos
+     *            number of nanoseconds
+     * @return String representation in ns, µs or ms
+     */
+    protected String nanosToHumanReadableString(long nanos) {
+        if (nanos < 1000) {
+            return nanos + " ns";
+        } else {
+            double us = nanos / 1000.0;
+            if (us < 1000) {
+                return String.format("%.2f µs", us);
+            } else {
+                double ms = us / 1000;
+                if (ms < 1000) {
+                    return String.format("%.2f ms", ms);
+                } else {
+                    double s = ms / 1000;
+                    return String.format("%.2f s", s);
+                }
+            }
+        }
+    }
 }

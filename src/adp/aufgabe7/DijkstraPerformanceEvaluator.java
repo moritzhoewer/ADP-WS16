@@ -20,11 +20,6 @@ import adp.util.AbstractPerformanceEvaluator;
 public class DijkstraPerformanceEvaluator extends AbstractPerformanceEvaluator {
 
     /**
-     * the maximum size for the Graphs
-     */
-    private static final int MAX_SIZE = 4000;
-
-    /**
      * the seed for RNG
      */
     private long seed;
@@ -55,7 +50,7 @@ public class DijkstraPerformanceEvaluator extends AbstractPerformanceEvaluator {
             Dijkstra.dijkstra(g, new Node<Integer>(0));
             long diff = System.nanoTime() - ts;
             addValueToMatlab("LIST", diff);
-            System.out.println("done");
+            System.out.println("done in " + nanosToHumanReadableString(diff));
         }
         
         for (int i = 1000; i <= 4000; i += 1000) {
@@ -70,7 +65,7 @@ public class DijkstraPerformanceEvaluator extends AbstractPerformanceEvaluator {
             Dijkstra.dijkstra(g, new Node<Integer>(0));
             long diff = System.nanoTime() - ts;
             addValueToMatlab("LIST", diff);
-            System.out.println("done");
+            System.out.println("done in " + nanosToHumanReadableString(diff));
         }
         
         printMatlab();

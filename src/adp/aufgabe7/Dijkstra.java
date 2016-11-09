@@ -1,7 +1,7 @@
 /*
  * Praktikum AD - WS 2016
  * Gruppe:  Jesko Treffler (Jesko.Treffler@haw-hamburg.de),
- * 			Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
+ *          Moritz Höwer (Moritz.Hoewer@haw-hamburg.de)
  * 
  * Datum: 07.11.2016 
  * Aufgabe: Aufgabenblatt 7
@@ -15,7 +15,7 @@ import java.util.*;
  * Class that hosts Dijkstras algorithm
  *
  * @author Moritz Höwer
- * @version 1.0 - 07.11.2016
+ * @version 2.0 - 09.11.2016
  */
 public class Dijkstra {
 
@@ -27,60 +27,44 @@ public class Dijkstra {
      *            the Graph to search
      * @param start
      *            the start Node
-     * @return A Set of all the Graphs Nodes as DijkstraNodes containgin the
+     * @return A Set of all the Graphs Nodes as DijkstraNodes containing the
      *         shortest path to start
      */
     public static <T> Set<DijkstraNode<T>> dijkstra(Graph<T> graph,
             Node<T> start) {
-        SortedSet<DijkstraNode<T>> buffer = new TreeSet<>();
+        SortedArrayList<DijkstraNode<T>> buffer = new SortedArrayList<>();
         Set<DijkstraNode<T>> result = new HashSet<>();
 
-        buffer.add(new DijkstraNode<>(start, 0));
+        buffer.insertSorted(new DijkstraNode<>(start, 0));
 
         while (!buffer.isEmpty()) {
             DijkstraNode<T> shortest = buffer.first();
-            boolean isDone = true;
 
             for (Connection<T> c : graph.getConnectionsFrom(shortest)) {
                 DijkstraNode<T> current = new DijkstraNode<>(c.getEnd(),
                         shortest, shortest.getWeight() + c.getWeight());
-                
+
                 if (result.contains(current)) {
                     // already done
                     continue;
                 }
-                
+
                 // check if it is pending
-                Iterator<DijkstraNode<T>> it = buffer.iterator();
-
-                boolean doInsert = true;
-
-                while (it.hasNext()) {
-                    DijkstraNode<T> temp = it.next();
-                    if (current.equals(temp)) {
-                        if (current.compareTo(temp) < 0) {
-                            // current is shorter
-                            // ==> remove temp and quit loop
-                            it.remove();
-                            break;
-                        } else {
-                            // current is longer
-                            // ==> throw it away
-                            doInsert = false;
-                            break;
-                        }
+                OptionalInt index = buffer.find(current);
+                if (index.isPresent()) {
+                    int i = index.getAsInt();
+                    if (current.compareTo(buffer.retrieve(i)) < 0) {
+                        // current has shorter path
+                        buffer.delete(i);
+                        buffer.insertSorted(current);
                     }
+                } else {
+                    buffer.insertSorted(current);
                 }
-                if (doInsert) {
-                    // insert current
-                    buffer.add(current);
-                    isDone = false;
-                }
+
             }
-            if (isDone) {
-                buffer.removeIf(e -> e.equals(shortest));
-                result.add(shortest);
-            }
+            buffer.delete(buffer.find(shortest).getAsInt());
+            result.add(shortest);
         }
 
         return result;

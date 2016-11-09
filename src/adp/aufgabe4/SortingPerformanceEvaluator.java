@@ -137,8 +137,8 @@ public class SortingPerformanceEvaluator extends AbstractPerformanceEvaluator {
             addValueToMatlab(name, "MAX", ns[1]);
 
             // print result in a nice form
-            System.out.format("%s | %s | %s per sorting\n", makeNice(ns[0]),
-                    makeNice(ns[2]), makeNice(ns[1]));
+            System.out.format("%s | %s | %s per sorting\n", nanosToHumanReadableString(ns[0]),
+                    nanosToHumanReadableString(ns[2]), nanosToHumanReadableString(ns[1]));
         }
 
         System.out.println("Done");
@@ -178,34 +178,13 @@ public class SortingPerformanceEvaluator extends AbstractPerformanceEvaluator {
     }
 
     /**
-     * Converts the nanoseconds to the most appropriate unit
-     * 
-     * @param nanos
-     *            number of nanoseconds
-     * @return String representation in ns, µs or ms
-     */
-    private String makeNice(long nanos) {
-        if (nanos < 1000) {
-            return nanos + " ns";
-        } else {
-            double us = nanos / 1000.0;
-            if (us < 1000) {
-                return String.format("%.2f µs", us);
-            } else {
-                double ms = us / 1000;
-                return String.format("%.2f ms", ms);
-            }
-        }
-    }
-
-    /**
      * Program entry point
      * 
      * @param args
      *            comand line args
      */
     public static void main(String[] args) {
-        SortingPerformanceEvaluator eval = new SortingPerformanceEvaluator(
+        AbstractPerformanceEvaluator eval = new SortingPerformanceEvaluator(
                 "123Kartoffelkotze".hashCode());
 
         eval.performEvaluation();

@@ -47,6 +47,7 @@ public class RandomGraphFactory implements AbstractGraphFactory<Integer> {
 	@Override
 	public Graph<Integer> buildGraph() {
 		Graph<Integer> result = new AdjazenzlisteGraph<>();
+	    //Graph<Integer> result = new AdjazenzmatrixGraph<>();
 		Random rand = new Random(seed);
 		
 		for (int i = 0; i < size; i++) {
@@ -55,9 +56,9 @@ public class RandomGraphFactory implements AbstractGraphFactory<Integer> {
 		
 		result.getAllNodes().forEach(n -> {
 		    result.getAllNodes().forEach(n2 -> {
-		        /*if(rand.nextBoolean()){*/
+		        //if(rand.nextBoolean()){
 		            result.insertConnection(n, n2, rand.nextInt(MAX_WEIGHT));
-		        /*}*/
+		       // }
 		    });
 		    
 		});
