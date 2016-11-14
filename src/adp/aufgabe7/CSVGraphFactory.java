@@ -59,11 +59,11 @@ public class CSVGraphFactory implements AbstractGraphFactory<String> {
             List<String[]> lines = reader.lines().map(s -> s.split(","))
                     .collect(Collectors.toList());
 
-            lines.forEach(l -> result.insertNode(new Node<>(l[0])));
+            lines.forEach(l -> result.insertNode(new Node<>(l[0].trim())));
             lines.forEach(l -> {
-                Node<String> start = new Node<>(l[0]);
+                Node<String> start = new Node<>(l[0].trim());
                 for(int i = 1; i < l.length; i++){
-                    Node<String> end = new Node<>(lines.get(i - 1)[0]);
+                    Node<String> end = new Node<>(lines.get(i - 1)[0].trim());
                     int weight = Integer.parseInt(l[i]);
                     result.insertConnection(start, end, weight);
                 }

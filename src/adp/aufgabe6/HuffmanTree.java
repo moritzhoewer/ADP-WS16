@@ -17,7 +17,7 @@ import java.util.HashSet;
  * @author Moritz Höwer
  * @version 1.0 - 26.10.2016
  */
-public class HuffmanTree {
+public class HuffmanTree implements Comparable<HuffmanTree> {
     /**
      * the value represented by this tree
      */
@@ -168,4 +168,9 @@ public class HuffmanTree {
     public String toString() {
         return "I am a tree with " + value;
     }
+
+	@Override
+	public int compareTo(HuffmanTree o) {
+		return value.compareTo(o.value);
+	}
 }

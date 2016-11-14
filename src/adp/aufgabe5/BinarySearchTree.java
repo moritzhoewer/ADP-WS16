@@ -113,73 +113,79 @@ public class BinarySearchTree {
                     "Lower boundary must not be bigger than upper boundary!");
         }
 
-        return root.getSum() - getSumOutside(root, upper, true)
-                - getSumOutside(root, lower, false);
+        return root.getSum() - getUpperSumOutside(root, upper)
+                - getLowerSumOutside(root, lower);
     }
 
-    /**
-     * calculates the sum of the part of the tree that is outside the boundary
-     * 
-     * @param root
-     *            the root of the subtree
-     * @param limit
-     *            the limit against which to check
-     * @param isUpperLimit
-     *            is limit the upper or the lower limit
-     * @return the sum of all nodes in the tree outside of the boundary
-     */
-    private int getSumOutside(Node root, int limit, boolean isUpperLimit) {
-        if (root == null) {
+	/**
+	 * Calculates the sum of the lower subtree
+	 * 
+	 * @param current
+	 * @param limit
+	 * @return
+	 */
+	private int getLowerSumOutside(Node current, int limit) {
+		if (current == null) {
             // end recursion
             return 0;
         }
+		
+		if (current.getValue() == limit) {
+		    // we need to subtract everything that is smaller
+		    if (current.getLeftChild() != null) {
+		        return current.getLeftChild().getSum();
+		    } else {
+		        return 0;
+		    }
 
-        if (isUpperLimit) {
-            if (root.getValue() == limit) {
-                // we need to subtract everything that is greater
-                if (root.getRightChild() != null) {
-                    return root.getRightChild().getSum();
-                } else {
-                    return 0;
-                }
+		} else if (current.getValue() > limit) {
+		    // going out further
+		    return getLowerSumOutside(current.getLeftChild(), limit);
+		} else {
+		    // going in
+		    // we need to remember that we might be cutting off part of the
+		    // tree
+		    int toSubtract = current.getValue();
+		    if (current.getLeftChild() != null) {
+		        toSubtract += current.getLeftChild().getSum();
+		    }
+		    return toSubtract + getLowerSumOutside(current.getRightChild(), limit);
+		}
+	}
 
-            } else if (root.getValue() < limit) {
-                // going out further
-                return getSumOutside(root.getRightChild(), limit, isUpperLimit);
-            } else {
-                // going in
-                // we need to remember that we might be cutting off part of the
-                // tree
-                int toSubtract = root.getValue();
-                if (root.getRightChild() != null) {
-                    toSubtract += root.getRightChild().getSum();
-                }
-                return toSubtract + getSumOutside(root.getLeftChild(), limit,
-                        isUpperLimit);
-            }
-        } else {
-            if (root.getValue() == limit) {
-                // we need to subtract everything that is smaller
-                if (root.getLeftChild() != null) {
-                    return root.getLeftChild().getSum();
-                } else {
-                    return 0;
-                }
-
-            } else if (root.getValue() > limit) {
-                // going out further
-                return getSumOutside(root.getLeftChild(), limit, isUpperLimit);
-            } else {
-                // going in
-                // we need to remember that we might be cutting off part of the
-                // tree
-                int toSubtract = root.getValue();
-                if (root.getLeftChild() != null) {
-                    toSubtract += root.getLeftChild().getSum();
-                }
-                return toSubtract + getSumOutside(root.getRightChild(), limit,
-                        isUpperLimit);
-            }
+	/**
+	 * Calculates the sum of the upper Subtree
+	 * 
+	 * @param current
+	 * @param limit
+	 * @return
+	 */
+	private int getUpperSumOutside(Node current, int limit) {
+		if (current == null) {
+            // end recursion
+            return 0;
         }
-    }
+		
+		if (current.getValue() == limit) {
+		    // we need to subtract everything that is greater
+		    if (current.getRightChild() != null) {
+		        return current.getRightChild().getSum();
+		    } else {
+		        return 0;
+		    }
+
+		} else if (current.getValue() < limit) {
+		    // going out further
+		    return getUpperSumOutside(current.getRightChild(), limit);
+		} else {
+		    // going in
+		    // we need to remember that we might be cutting off part of the
+		    // tree
+		    int toSubtract = current.getValue();
+		    if (current.getRightChild() != null) {
+		        toSubtract += current.getRightChild().getSum();
+		    }
+		    return toSubtract + getUpperSumOutside(current.getLeftChild(), limit);
+		}
+	}
 }

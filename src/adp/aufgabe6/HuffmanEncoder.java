@@ -10,6 +10,8 @@
 package adp.aufgabe6;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Utility for encoding and decoding using {@link HuffmanTree}s
@@ -69,18 +71,24 @@ public class HuffmanEncoder {
         ArrayList<HuffmanSingleCharTuple> occurrences = countChars(text);
 
         // convert occurrences List to HuffmanTree (with the encoding)
-        encodingTree = occurrences.stream() // create stream
+        List<HuffmanTree> sortedList = occurrences.stream() // create stream
                 .sorted() // sort by # of occurrences
                 .map(HuffmanTree::new) // convert to trees
-                .reduce(new HuffmanTree(), HuffmanTree::combineWith);
-
-//        System.out.println(occurrences);
-//        System.out.println(encodingTree);
-//
-//        text.chars().distinct().forEach(i -> {
-//            char c = (char) i;
-//            System.out.println(c + " -> " + encodingTree.getHuffmanCodeFor(c));
-//        });
+                .collect(Collectors.toList()); // convert back to list
+        
+        while(sortedList.size() > 1){
+        	HuffmanTree newTree = sortedList.remove(0).combineWith(sortedList.remove(0));
+        	int i;
+        	for(i = 0; i < sortedList.size(); i++){
+        		if (sortedList.get(i).compareTo(newTree) > 0) {
+                    // current is bigger ==> insert before
+                    break;
+                }
+        	}
+        	sortedList.add(i, newTree);
+        }
+        
+        encodingTree = sortedList.get(0);
 
     }
 

@@ -30,7 +30,7 @@ public class HuffmanApplication {
         String ref = readFile("reftext.txt");
 
         // a text for encoding and decoding
-        final String TEXT = "If you give someone a program you will frustrate "
+        String TEXT = "If you give someone a program you will frustrate "
                 + "them for a day. If you teach them how to program, you will "
                 + "frustrate them for a lifetime. The computing scientist's "
                 + "main challenge is not to get confused by the complexities "
@@ -38,14 +38,20 @@ public class HuffmanApplication {
                 + "than anywhere else in technology because software is so "
                 + "complicated. Beauty is the ultimate defence against "
                 + "complexity.";
-
+        
+        //TEXT = "eene meene deeene beeene";
+        /*TEXT = "";
+        for(int i=0;i<256;i++){
+        	TEXT+=(char)i;
+        }*/
+        
         HuffmanEncoder encoder = new HuffmanEncoder();
         // generate tree with reftext
         encoder.generateHuffmanTree(ref);
 
         String code = encoder.encode(TEXT);
         System.out.println("Code is " + code.length() + " Bit instead of "
-                + TEXT.length() * 8 + " Bit when encoded with REFTEXT");
+                + TEXT.length() * 5 + " Bit when encoded with REFTEXT");
         System.out.println(code);
         System.out.println(encoder.decode(code));
 
@@ -59,7 +65,7 @@ public class HuffmanApplication {
 
         code = encoder.encode(TEXT);
         System.out.println("Code is " + code.length() + " Bit instead of "
-                + TEXT.length() * 8 + " Bit when encoded with itself");
+                + TEXT.length() * 5 + " Bit when encoded with itself");
         System.out.println(code);
         System.out.println(encoder.decode(code));
     }

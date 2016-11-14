@@ -9,6 +9,7 @@
 
 package adp.aufgabe7;
 
+import java.time.LocalTime;
 import java.util.Set;
 
 /**
@@ -23,9 +24,12 @@ public class Application {
      * @param args
      */
     public static void main(String[] args) {
-        // performanceAnalysis();
-        handCheckDijkstra();
-        //csvCheckDijkstra();
+        //performanceAnalysis();
+        //handCheckDijkstra();
+        csvCheckDijkstra();
+    	/*System.out.println(LocalTime.now() + " ==> Start Building");
+    	Graph<?> g = new RandomGraphFactory(10000, 87654334).buildGraph();
+    	System.out.println(LocalTime.now() + " ==> Done Building");*/
     }
 
     /**
@@ -37,7 +41,7 @@ public class Application {
                         .getFile());
 
         Graph<String> graph = factory.buildGraph();
-
+        
         graph.getAllNodes().forEach(n -> {
             System.out.print(n + " ==> ");
             graph.getConnectionsFrom(n).forEach(c -> {
@@ -50,7 +54,7 @@ public class Application {
         System.out.println();
 
         Set<DijkstraNode<String>> set = Dijkstra.dijkstra(graph,
-                new Node<>("Kiel"));
+                new Node<>("Hamburg"));
         set.forEach(Application::printNode);
     }
 

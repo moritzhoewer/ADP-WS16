@@ -62,7 +62,7 @@ public class Node<T> {
         if (!(obj instanceof Node)) {
             return false;
         }
-        Node other = (Node) obj;
+		Node<?> other = (Node<?>) obj;
         if (value == null) {
             if (other.value != null) {
                 return false;
