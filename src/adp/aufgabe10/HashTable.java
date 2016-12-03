@@ -11,9 +11,10 @@ package adp.aufgabe10;
 
 import java.util.ArrayList;
 import java.util.OptionalInt;
-import java.util.List;
 
-import adp.aufgabe2.PrimeFinder;
+import adp.aufgabe02.PrimeFinder;
+
+import java.util.List;
 
 /**
  * An (almost) generic HashTable that can store generic Data associated with a
