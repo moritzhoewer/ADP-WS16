@@ -13,9 +13,9 @@ hs_err_pid*
 
 # Eclipse Project files
 /bin/
-
 .classpath
-
 .settings
-
 .project
+
+# Aufgabe 10 - logfile
+test.log
