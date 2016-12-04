@@ -47,8 +47,6 @@ public class MainGUI implements Initializable {
      */
     private static MainGUI instance = null;
 
-    private Controller controller;
-
     /**
      * hacky singleton because I don't understand how this stupid FXML shit is
      * supposed to work
@@ -104,8 +102,6 @@ public class MainGUI implements Initializable {
      */
     public void initAndShowGUI(Controller controller, Stage primaryStage,
             Parent root) {
-        this.controller = controller;
-
         lstIps.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         lstIps.getSelectionModel().selectedItemProperty()
                 .addListener((ov, old, nw) -> {

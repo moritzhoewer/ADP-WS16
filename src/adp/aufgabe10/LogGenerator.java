@@ -119,6 +119,7 @@ public class LogGenerator {
     public void generateAndWriteLines(int lines) throws FileNotFoundException {
         File logFile = new File(filename);
         PrintStream ps = new PrintStream(logFile);
+        ips.clear();
 
         // prepare progress bar
         int progress = 0;
