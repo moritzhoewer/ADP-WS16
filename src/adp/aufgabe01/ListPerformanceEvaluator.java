@@ -85,6 +85,12 @@ public class ListPerformanceEvaluator extends AbstractPerformanceEvaluator {
      *            second list - backwards operations
      * @param times
      *            how big are the lists / how often should each action be run
+     * @param name
+     *            the name to be used when inserting into Matlab
+     * @param bestIndex
+     *            always gives you the best index
+     * @param worstIndex
+     *            always gives you the worst index
      */
     private void doTests(String name, List<Integer> list1, List<Integer> list2,
             int times, IntUnaryOperator bestIndex,
@@ -144,8 +150,7 @@ public class ListPerformanceEvaluator extends AbstractPerformanceEvaluator {
         // delete
         // list 1 is double the size it's supposed to be
         // delete everything from list 1
-        evaluateMassAction(
-                x -> list1.delete(0), list1.size() - 1);
+        evaluateMassAction(x -> list1.delete(0), list1.size() - 1);
         // insert elements again
         evaluateMassAction(x -> list1.insert(bestIndex.applyAsInt(x), x),
                 times);

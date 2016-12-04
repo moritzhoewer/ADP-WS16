@@ -21,7 +21,7 @@ import java.util.Set;
 public class Application {
 
     /**
-     * @param args
+     * @param args command line arguments
      */
     public static void main(String[] args) {
         //performanceAnalysis();

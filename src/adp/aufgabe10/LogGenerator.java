@@ -81,6 +81,7 @@ public class LogGenerator {
      * @param args
      *            command line args
      * @throws FileNotFoundException
+     *             if the file is not found
      */
     public static void main(String[] args) throws FileNotFoundException {
         new LogGenerator(
@@ -92,6 +93,7 @@ public class LogGenerator {
      * generate a log
      * 
      * @throws FileNotFoundException
+     *             if the file cannot be found
      */
     public void generateLog() throws FileNotFoundException {
         System.out.print("Please enter how many entries you want: ");
@@ -112,6 +114,7 @@ public class LogGenerator {
      * @param lines
      *            how many liones to write
      * @throws FileNotFoundException
+     *             if the file is not found
      */
     public void generateAndWriteLines(int lines) throws FileNotFoundException {
         File logFile = new File(filename);
@@ -141,6 +144,7 @@ public class LogGenerator {
             ps.println(logLine);
         }
         System.out.println("\nDone.");
+        System.out.println("Generated " + ips.size() + " IP adresses");
         ps.close();
     }
 

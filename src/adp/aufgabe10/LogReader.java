@@ -29,24 +29,25 @@ public class LogReader {
     public LogReader(String filename) {
         this.filename = filename;
     }
-    
+
     /**
      * Reads the Weblog specified in constructor and stores it in a HashTable
      * 
      * @return the HashTable containing all the Files
      * @throws IOException
+     *             if there is a problem when reading
      */
     public HashTable<List<String>> readLog() throws IOException {
         File logFile = new File(filename);
         BufferedReader br = new BufferedReader(new FileReader(logFile));
 
         HashTable<List<String>> ht = new HashTable<>();
-        
+
         br.lines().forEach(line -> {
             String[] parts = line.split(" - ");
             String ip = parts[0];
             String data = parts[1];
-            
+
             // check if IP already exists
             if (ht.containsKey(ip)) {
                 ht.get(ip).add(data);
@@ -56,7 +57,7 @@ public class LogReader {
                 ht.put(ip, list);
             }
         });
-        
+
         br.close();
         return ht;
     }

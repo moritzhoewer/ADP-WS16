@@ -24,6 +24,7 @@ public class HuffmanApplication {
 
     /**
      * @param args
+     *            command line arguments
      */
     public static void main(String[] args) {
         // read reftext (introduction to sherlock holmes ~30k chars)
@@ -38,13 +39,12 @@ public class HuffmanApplication {
                 + "than anywhere else in technology because software is so "
                 + "complicated. Beauty is the ultimate defence against "
                 + "complexity.";
-        
-        //TEXT = "eene meene deeene beeene";
-        /*TEXT = "";
-        for(int i=0;i<256;i++){
-        	TEXT+=(char)i;
-        }*/
-        
+
+        // TEXT = "eene meene deeene beeene";
+        /*
+         * TEXT = ""; for(int i=0;i<256;i++){ TEXT+=(char)i; }
+         */
+
         HuffmanEncoder encoder = new HuffmanEncoder();
         // generate tree with reftext
         encoder.generateHuffmanTree(ref);

@@ -13,18 +13,33 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+
 /**
  * Entry Point for Program
  *
  * @author Moritz Höwer
  * @version 1.0 - 03.12.2016
  */
-public class Application {
+public class Application extends javafx.application.Application {
 
     /**
      * @param args
+     *            command line arguments
      */
     public static void main(String[] args) {
+        launch(args);
+        // doCommandLineVersion();
+
+    }
+
+    /**
+     * dumb commandline version without GUI
+     */
+    @SuppressWarnings("unused")
+    private static void doCommandLineVersion() {
         try {
             System.out.println("Waiting for start...");
             System.in.read();
@@ -41,7 +56,17 @@ public class Application {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javafx.application.Application#start(javafx.stage.Stage)
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("MainGUI.fxml"));
+        new Controller(primaryStage, root);
     }
 
 }
