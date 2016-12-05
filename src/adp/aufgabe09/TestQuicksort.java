@@ -7,18 +7,15 @@
  * Aufgabe: Aufgabenblatt X
  */
 
-package adp.aufgabe04;
+package adp.aufgabe09;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.util.Random;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import org.junit.Test;
 
-import adp.aufgabe09.ImprovedSortableArrayList;
 import adp.aufgabe09.ImprovedSortableArrayList.PivotSelection;
 
 /**

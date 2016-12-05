@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import adp.util.AbstractPerformanceEvaluator;
+import adp.util.Counter;
 
 public class HashAccessPerformanceEvaluator
         extends
@@ -14,8 +15,9 @@ public class HashAccessPerformanceEvaluator
     private LogReader reader;
 
     public HashAccessPerformanceEvaluator() {
-        String filename = System.getProperty("user.dir") + File.separator
-                + "perf.log";
+        /*String filename = System.getProperty("user.dir") + File.separator
+                + "perf.log";*/
+    	String filename = "C:\\Users\\abz254\\per.log";
         generator = new LogGenerator(filename);
         reader = new LogReader(filename);
     }
@@ -27,13 +29,15 @@ public class HashAccessPerformanceEvaluator
 
             System.out.print("Reading...");
             HashTable<List<String>> ht = reader.readLog();
+            Counter counter = new Counter();
+            ht.setCounter(counter);
             System.out.println("done");
             List<String> keys = ht.getKeys();
 
-            double avgAccessTimeNS = keys.stream()
-                    .mapToLong(key -> getNSForAction(() -> ht.get(key)))
-                    .average().getAsDouble();
-            addValueToMatlab("time", (long)avgAccessTimeNS);
+            keys.forEach((key) -> ht.get(key));
+            
+            addValueToMatlab("time", counter.getCount() / keys.size());
+            addValueToMatlab("load", (long)(ht.getLoadFactor() * 100));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -52,6 +56,7 @@ public class HashAccessPerformanceEvaluator
     public void performEvaluation() {
         addKeyToMatlab("size");
         addKeyToMatlab("time");
+        addKeyToMatlab("load");
         
         evaluate(100);
         evaluate(1000);

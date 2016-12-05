@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.OptionalInt;
 
 import adp.aufgabe02.PrimeFinder;
+import adp.util.Counter;
 
 import java.util.List;
 
@@ -80,7 +81,13 @@ public class HashTable<T> {
      * reusing PrimeFinder from Aufgabe 2 to ensure size is always a prime.
      */
     private PrimeFinder pf;
-
+    
+    private Counter counter;
+    
+    public void setCounter(Counter counter){
+    	this.counter = counter;
+    }
+    
     public HashTable() {
         this(INITIAL_CAPACITY);
     }
@@ -89,7 +96,8 @@ public class HashTable<T> {
     public HashTable(int capacity) {
         entryCount = 0;
         pf = new PrimeFinder();
-
+        counter = new Counter();
+        
         // ugly because generics
         data = (HashTableEntry<T>[]) new HashTableEntry[capacity];
     }
@@ -247,7 +255,7 @@ public class HashTable<T> {
      * @return the probe step width for the given hash
      */
     private int probeHash(int hash) {
-        return 1 + (hash % (data.length * 2 / 3));
+        return 1 + (hash % (data.length - 1));
     }
 
     /**
@@ -255,7 +263,7 @@ public class HashTable<T> {
      * 
      * @return the load factor [0-1]
      */
-    private double getLoadFactor() {
+    public double getLoadFactor() {
         return size() / (double) data.length;
     }
 
@@ -282,9 +290,19 @@ public class HashTable<T> {
      * @return the index key points to in the HashTable.
      */
     private int getIndexForKey(String key) {
+    	// PERFORMANCE EVALUATION
+    	counter.increment();
+    	// PERFORMANCE EVALUATION
         int index = hash(key);
         int hash = index; // cache original hash for probeHash()
+        
+     // PERFORMANCE EVALUATION
+    	counter.increment();
+    	// PERFORMANCE EVALUATION
         while (checkHashCollisionOn(index, key)) {
+        	// PERFORMANCE EVALUATION
+        	counter.increment();
+        	// PERFORMANCE EVALUATION
             index = (index + probeHash(hash)) % data.length;
         }
         return index;

@@ -27,12 +27,12 @@ public class SortingPerformanceEvaluator extends AbstractPerformanceEvaluator {
     /**
      * the randomizer for filling the List
      */
-    private Random random;
+    protected Random random;
 
     /**
      * the seed for the randomizer
      */
-    private long seed;
+    protected long seed;
 
     /**
      * how often is the list sorted for evaluation

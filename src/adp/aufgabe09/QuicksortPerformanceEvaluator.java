@@ -9,6 +9,8 @@
 
 package adp.aufgabe09;
 
+import java.util.Random;
+
 import adp.aufgabe04.SortingPerformanceEvaluator;
 import adp.aufgabe09.ImprovedSortableArrayList.PivotSelection;
 import adp.util.Counter;
@@ -37,7 +39,7 @@ public class QuicksortPerformanceEvaluator extends SortingPerformanceEvaluator {
      */
     @Override
     public void performEvaluation() {
-        addKeyToMatlab("size");
+        /*addKeyToMatlab("size");
         for (int i = 30; i <= MAX_SIZE; i *= 10) {
             addValueToMatlab("size", i);
         }
@@ -48,7 +50,38 @@ public class QuicksortPerformanceEvaluator extends SortingPerformanceEvaluator {
             addKeyToMatlab(sel + "_maxmiddle");
             evaluate(sel);
         }
-        System.out.println("\n");
+        */
+    	
+    	addKeyToMatlab("size");
+    	for (PivotSelection sel : PivotSelection.values()) {
+            System.out.println("\nEvaluating " + sel.toString());
+            initMatlab(new String[]{sel.toString()}, new String[]{"min", "max", "avg"});
+            ImprovedSortableArrayList list = new ImprovedSortableArrayList(sel, counter);
+            
+            for(int i = 10; i <= MAX_SIZE; i *= 10){
+            	random = new Random(seed);
+            	System.out.println("Size: " + i);
+            	
+            	long min = Long.MAX_VALUE;
+            	long max = Long.MIN_VALUE;
+            	long accum = 0;
+            	
+            	for(int j = 0; j < 100; j++){
+            		counter.reset();
+            		fillListRandomly(list, i);
+            		list.doQuicksort();
+            		long val = counter.getCount();
+            		min = Math.min(val,  min);
+            		max = Math.max(val, max);
+            		accum += val;
+            	}
+            	
+            	addValueToMatlab(sel + "_avg", accum / 100);
+            	addValueToMatlab(sel + "_min", min);
+            	addValueToMatlab(sel + "_max", max);
+            }
+        }
+    	System.out.println("\n");
         printMatlab();
 
     }
