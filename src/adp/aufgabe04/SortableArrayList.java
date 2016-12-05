@@ -113,44 +113,6 @@ public class SortableArrayList extends ArrayList<Integer> {
 			}
 			
 		}
-	}
-	/**
-	 * Swaps Entries at Index1 and Index2 in ArrayList
-	 * @param Index1
-	 * @param Index2
-	 */
-    public void swap(int Index1, int Index2){
-	    	Object tmp;
-			tmp = data[Index1];
-			data[Index1] = data[Index2];
-			data[Index2] = tmp;
-	    }
-	/**
-	 * 
-	 * @param leftElement
-	 * @param Pivot
-	 */
-	public void doQuickSort(int leftElement, int Pivot){
-		
-		if(leftElement < Pivot){
-			int i=leftElement;
-			int j=Pivot-1;
-			while(true){
-				while((int)data[i] < (int)data[Pivot]){
-					i++;
-				}
-				while((int)data[j]>=(int)data[Pivot] && (j>leftElement)){
-					j--;
-				}
-				if(i>=j){
-					break;
-				}
-				swap(i,j);
-			}
-			swap(i, Pivot);
-			doQuickSort(leftElement, i-1);
-			doQuickSort(i+1, Pivot);
-		}
 		
 	}
 

@@ -46,6 +46,7 @@ public class SortingPerformanceEvaluator extends AbstractPerformanceEvaluator {
 
     public SortingPerformanceEvaluator(long seed) {
         this.seed = seed;
+        random = new Random(seed);
     }
 
     /**
@@ -56,7 +57,7 @@ public class SortingPerformanceEvaluator extends AbstractPerformanceEvaluator {
      * @param desiredSize
      *            how many items are to be inserted
      */
-    private void fillListRandomly(SortableArrayList list, int desiredSize) {
+    protected void fillListRandomly(SortableArrayList list, int desiredSize) {
         list.empty();
         int i = 0;
         int n = 0;
